@@ -2,3 +2,44 @@
 
 All these programs work with datacubes in FITS format. See =[[http://github.com/deprecated/ah3-utils][ah3-utils]]= for how to convert Capreole's native AH3 format to FITS. 
 
+** End-user programs
+
+*** cubet
+
+Calculate temperature cube
+
+*** cubevr
+
+Calclate radial velocity cube (from star, assumed at center of grid)
+
+** Dependencies
+=ah3tofits= (via =wfitsutils=) depends on the cfitsio library 
+
+*** Fedora
+#+BEGIN_SRC bash
+sudo yum install cfitsio
+#+END_SRC
+
+*** Other
+Install from [[http://freshmeat.net/projects/cfitsio][source]], e.g., like this:
+#+BEGIN_EXAMPLE
+wget ftp://heasarc.gsfc.nasa.gov/software/fitsio/c/cfitsio3250.tar.gz
+tar xzf cfitsio3250.tar.gz
+cd cfitsio
+./configure --prefix=/usr/local
+make
+sudo make install
+#+END_EXAMPLE
+Of course, you will want to change =3250= to te latest version. If you don't have =wget= you can use =curl= instead (=curl URL -o FILENAME=). 
+
+** Compilation
++ First install the [[*Dependencies][dependencies]]
++ Enter the =src/= directory
++ [OPTIONAL] Copy =local.mk.sample= to =local.mk= and edit it to specify the desired compiler command (=F90C=), compiler options (=F90LAGS=), and libraries to link (=LFITS=). 
+  + The default values are 
+#+BEGIN_EXAMPLE
+F90C=gfortran
+F90FLAGS=-O3
+LFITS=/usr/local/lib/libcfitsio.a
+#+END_EXAMPLE
+
