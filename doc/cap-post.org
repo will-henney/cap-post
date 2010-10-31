@@ -1,4 +1,4 @@
 * Postprocess Capreole datasets
 
-All these programs work with datacubes in FITS format. See =ah3-utils= for how to convert Capreole's native AH3 format to FITS. 
+All these programs work with datacubes in FITS format. See =[[http://github.com/deprecated/ah3-utils][ah3-utils]]= for how to convert Capreole's native AH3 format to FITS. 
 

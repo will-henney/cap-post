@@ -1,0 +1,24 @@
+# To modify the compiler and flags, copy this file to local.mk 
+#
+# Uncomment some or all of the following as appropriate, or make up
+# your own 
+#
+# ################## Linux x64, Intel Fortran 11 ##################
+# 
+# F90C=ifort
+# 
+# If cfitsio is installed from yum, this seems the only way to link it
+# LFITS=-Bdynamic /usr/lib64/libcfitsio.so.0
+#
+# #################################################################
+#
+# ################## OS X x64, Intel Fortran 11 ##################
+# 
+# F90C=ifort
+#
+# If you have big arrays, this is necessary to avoid stack exhaustion
+# See this page: 
+# http://software.intel.com/en-us/articles/determining-root-cause-of-sigsegv-or-sigbus-errors/
+# F90FLAGS+=-heap-arrays
+#
+# #################################################################

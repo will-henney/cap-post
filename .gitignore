@@ -1,3 +1,5 @@
 *.o
 *.mod
 /doc/*.html
+/src/cubet
+/src/cubevr
