@@ -1,8 +1,66 @@
+#+TITLE:     =cap-post=
+#+AUTHOR:    William Henney
+#+EMAIL:     w.henney@crya.unam.mx
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  en
+#+OPTIONS:   H:5 num:nil toc:nil \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT:
+
 * Postprocess Capreole datasets
 
 All these programs work with datacubes in FITS format. See =[[http://github.com/deprecated/ah3-utils][ah3-utils]]= for how to convert Capreole's native AH3 format to FITS. 
 
-** End-user programs
+** Package layout
++ =doc/cap-post.org= :: Source for documentation in Org-mode format  
++ =doc/cap-post.html= :: Compiled HTML file of documentation
++ =src/*.{f90,sh}= :: Programs and convenience scripts
+
+** Compilation
++ First install the [[*Dependencies][dependencies]]
++ Enter the =src/= directory
++ [OPTIONAL] Copy =local.mk.sample= to =local.mk= and edit it to specify the desired compiler command (=F90C=), compiler options (=F90LAGS=), and libraries to link (=LFITS=). 
+  + The default values are 
+    #+BEGIN_EXAMPLE
+    F90C=gfortran
+    F90FLAGS=-O3
+    LFITS=/usr/local/lib/libcfitsio.a
+    #+END_EXAMPLE
++ Compile everything with 
+  #+begin_src bash
+  make all
+  #+end_src
++ Most programs are designed to be run in the directory where the data is.  For convenience, you may want to set a shell variable to the directory where the programs are, e.g.: =psrc=/path/to/cap-post/src=.  So you can then type =sh $psrc/fitsemiss.sh ...= 
+
+** Convenience scripts
+
+The general default behavior of these scripts is to process all the save times of a given model in the current directory.  Usage is as follows:
+
+#+begin_src bash
+sh SCRIPT.sh DATEID RUNID EMTYPE [I1] [I2] [ISTEP] 
+#+end_src
+
++ DATEID :: something like =30112005=
++ RUNID :: the one-letter id code, such as =x=
++ EMTYPE :: the code for the emission mechanism, such as =Halpha=
++ I1 :: (optional) the first savetime to process
++ I2 :: (optional) the last savetime to process
++ ISTEP :: (optional) the step in savetimes, such as =100= to process every 100th time
+
+*** fitsemiss.sh
+
+Runs =cubet=, =cubeemiss=, and =makemap= as necessary to generate the emission maps.  
+
+** Fortran programs
+
+These programs can be run individually if necessary, although it is generally easier to use the convenience scripts described above. 
+
 
 *** cubet
 
@@ -10,15 +68,42 @@ Calculate temperature cube
 
 *** cubevr
 
-Calclate radial velocity cube (from star, assumed at center of grid)
+Calculate radial velocity cube (from star, assumed at center of grid). 
 
-** Dependencies
-=ah3tofits= (via =wfitsutils=) depends on the cfitsio library 
+*** cubeemiss
+
+Calculate emissivity cube for a particular emission process (e.g., =Halpha=, =FF06cm=, =N26584=, =neut00=, etc). 
+
+*** makemap
+
+Calculate surface brightness maps, for views along the 6 principal axes of the cube: \(\pm x\), \(\pm y\), \(\pm z\). 
+
+*** makerotmap
+
+Calculate surface brightness map for view from an arbitrary direction. 
+
+** Library modules
+
+*** wfitsutils
+Read and write FITS files.
+*** emissmod
+General mechanism for emissivity calculations.
+*** em2levmod
+Specific functions for particular types of emission line.
+
+** External dependencies
+Many of the Fortran progams use my =wfitsutils= module, which depends on the CFITSIO library.  This may be installed as follows:
 
 *** Fedora
 #+BEGIN_SRC bash
 sudo yum install cfitsio
 #+END_SRC
+
+*** Mac OS X via Homebrew
+#+BEGIN_SRC bash
+brew install cfitsio
+#+END_SRC
+
 
 *** Other
 Install from [[http://freshmeat.net/projects/cfitsio][source]], e.g., like this:
@@ -31,15 +116,4 @@ make
 sudo make install
 #+END_EXAMPLE
 Of course, you will want to change =3250= to te latest version. If you don't have =wget= you can use =curl= instead (=curl URL -o FILENAME=). 
-
-** Compilation
-+ First install the [[*Dependencies][dependencies]]
-+ Enter the =src/= directory
-+ [OPTIONAL] Copy =local.mk.sample= to =local.mk= and edit it to specify the desired compiler command (=F90C=), compiler options (=F90LAGS=), and libraries to link (=LFITS=). 
-  + The default values are 
-#+BEGIN_EXAMPLE
-F90C=gfortran
-F90FLAGS=-O3
-LFITS=/usr/local/lib/libcfitsio.a
-#+END_EXAMPLE
 

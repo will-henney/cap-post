@@ -3,3 +3,6 @@
 /doc/*.html
 /src/cubet
 /src/cubevr
+/src/cubeemiss
+/src/makemap
+/src/makerotmapsmall
