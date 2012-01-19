@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title><code>cap-post</code></title>
+<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
+<meta name="title" content="<code>cap-post</code>"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2012-01-18 22:41:03 CST"/>
+<meta name="author" content="William Henney"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style><style type="text/css">
+   <!--/*--><![CDATA[/*><!--*/
+     .src             { background: #F5FFF5; position: relative; margin-top: 12px; padding-top: 24px; }
+     .src:before      { position: absolute; top: 0px; left: 0px; 
+                        background: #ffffff; padding: 2px; 
+                        border-right: 1px solid black; border-bottom: 1px solid black;
+                        font-size: 70%; font-family: sans-serif; font-weight: bold;}
+     .src-sh:before   { content: 'sh'; }
+     .src-bash:before { content: 'sh'; }
+     .src-R:before    { content: 'R'; }
+     .src-python:before    { content: 'Python'; }
+     .src-perl:before { content: 'Perl'; }
+     .src-sql:before  { content: 'SQL'; }
+     .src-f90:before  { content: 'Fortran'; }
+     .example         { background-color: #FFF5F5; }
+   /*]]>*/-->
+</style>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=Accessible.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": {
+      availableFonts: ["TeX"]
+    }
+  });
+</script>
+</head>
+<body>
+
+<div id="preamble">
+
+</div>
+
+<div id="content">
+<h1 class="title"><code>cap-post</code></h1>
+
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1">Postprocess Capreole datasets</h2>
+<div class="outline-text-2" id="text-1">
+
+
+<p>
+All these programs work with datacubes in FITS format. See =<a href="http://github.com/deprecated/ah3-utils">ah3-utils</a>= for how to convert Capreole's native AH3 format to FITS. 
+</p>
+
+</div>
+
+<div id="outline-container-1-1" class="outline-3">
+<h3 id="sec-1-1">Package layout</h3>
+<div class="outline-text-3" id="text-1-1">
+
+<dl>
+<dt><code>doc/cap-post.org</code></dt><dd>Source for documentation in Org-mode format  
+</dd>
+<dt><code>doc/cap-post.html</code></dt><dd>Compiled HTML file of documentation
+</dd>
+<dt><code>src/*.{f90,sh}</code></dt><dd>Programs and convenience scripts
+</dd>
+</dl>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-2" class="outline-3">
+<h3 id="sec-1-2">Compilation</h3>
+<div class="outline-text-3" id="text-1-2">
+
+<ul>
+<li>First install the <a href="#Dependencies">dependencies</a>
+</li>
+<li>Enter the <code>src/</code> directory
+</li>
+<li>[OPTIONAL] Copy <code>local.mk.sample</code> to <code>local.mk</code> and edit it to specify the desired compiler command (<code>F90C</code>), compiler options (<code>F90LAGS</code>), and libraries to link (<code>LFITS</code>). 
+<ul>
+<li>The default values are 
+
+
+
+<pre class="example">    F90C=gfortran
+    F90FLAGS=-O3
+    LFITS=/usr/local/lib/libcfitsio.a
+</pre>
+
+</li>
+</ul>
+
+</li>
+<li>Compile everything with 
+</li>
+</ul>
+
+
+
+
+<pre class="example">  make all
+</pre>
+
+<ul>
+<li>Most programs are designed to be run in the directory where the data is.  For convenience, you may want to set a shell variable to the directory where the programs are, e.g.: <code>psrc=/path/to/cap-post/src</code>.  So you can then type <code>sh $psrc/fitsemiss.sh ...</code> 
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-3" class="outline-3">
+<h3 id="sec-1-3">Convenience scripts</h3>
+<div class="outline-text-3" id="text-1-3">
+
+
+<p>
+The general default behavior of these scripts is to process all the save times of a given model in the current directory.  Usage is as follows:
+</p>
+
+
+
+<pre class="example">sh SCRIPT.sh DATEID RUNID EMTYPE [I1] [I2] [ISTEP] 
+</pre>
+
+
+<dl>
+<dt>DATEID</dt><dd>something like <code>30112005</code>
+</dd>
+<dt>RUNID</dt><dd>the one-letter id code, such as <code>x</code>
+</dd>
+<dt>EMTYPE</dt><dd>the code for the emission mechanism, such as <code>Halpha</code>
+</dd>
+<dt>I1</dt><dd>(optional) the first savetime to process
+</dd>
+<dt>I2</dt><dd>(optional) the last savetime to process
+</dd>
+<dt>ISTEP</dt><dd>(optional) the step in savetimes, such as <code>100</code> to process every 100th time
+</dd>
+</dl>
+
+
+
+</div>
+
+<div id="outline-container-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1">fitsemiss.sh</h4>
+<div class="outline-text-4" id="text-1-3-1">
+
+
+<p>
+Runs <code>cubet</code>, <code>cubeemiss</code>, and <code>makemap</code> as necessary to generate the emission maps.  
+</p>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-1-4" class="outline-3">
+<h3 id="sec-1-4">Fortran programs</h3>
+<div class="outline-text-3" id="text-1-4">
+
+
+<p>
+These programs can be run individually if necessary, although it is generally easier to use the convenience scripts described above. 
+</p>
+
+
+</div>
+
+<div id="outline-container-1-4-1" class="outline-4">
+<h4 id="sec-1-4-1">cubet</h4>
+<div class="outline-text-4" id="text-1-4-1">
+
+
+<p>
+Calculate temperature cube
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-1-4-2" class="outline-4">
+<h4 id="sec-1-4-2">cubevr</h4>
+<div class="outline-text-4" id="text-1-4-2">
+
+
+<p>
+Calculate radial velocity cube (from star, assumed at center of grid). 
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-1-4-3" class="outline-4">
+<h4 id="sec-1-4-3">cubeemiss</h4>
+<div class="outline-text-4" id="text-1-4-3">
+
+
+<p>
+Calculate emissivity cube for a particular emission process (e.g., <code>Halpha</code>, <code>FF06cm</code>, <code>N26584</code>, <code>neut00</code>, etc). 
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-1-4-4" class="outline-4">
+<h4 id="sec-1-4-4">makemap</h4>
+<div class="outline-text-4" id="text-1-4-4">
+
+
+<p>
+Calculate surface brightness maps, for views along the 6 principal axes of the cube: \(\pm x\), \(\pm y\), \(\pm z\). 
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-1-4-5" class="outline-4">
+<h4 id="sec-1-4-5">makerotmap</h4>
+<div class="outline-text-4" id="text-1-4-5">
+
+
+<p>
+Calculate surface brightness map for view from an arbitrary direction. 
+</p>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-1-5" class="outline-3">
+<h3 id="sec-1-5">Library modules</h3>
+<div class="outline-text-3" id="text-1-5">
+
+
+
+</div>
+
+<div id="outline-container-1-5-1" class="outline-4">
+<h4 id="sec-1-5-1">wfitsutils</h4>
+<div class="outline-text-4" id="text-1-5-1">
+
+<p>Read and write FITS files.
+</p></div>
+
+</div>
+
+<div id="outline-container-1-5-2" class="outline-4">
+<h4 id="sec-1-5-2">emissmod</h4>
+<div class="outline-text-4" id="text-1-5-2">
+
+<p>General mechanism for emissivity calculations.
+</p></div>
+
+</div>
+
+<div id="outline-container-1-5-3" class="outline-4">
+<h4 id="sec-1-5-3">em2levmod</h4>
+<div class="outline-text-4" id="text-1-5-3">
+
+<p>Specific functions for particular types of emission line.
+</p>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-1-6" class="outline-3">
+<h3 id="sec-1-6">External dependencies</h3>
+<div class="outline-text-3" id="text-1-6">
+
+<p>Many of the Fortran progams use my <code>wfitsutils</code> module, which depends on the CFITSIO library.  This may be installed as follows:
+</p>
+
+</div>
+
+<div id="outline-container-1-6-1" class="outline-4">
+<h4 id="sec-1-6-1">Fedora</h4>
+<div class="outline-text-4" id="text-1-6-1">
+
+
+
+
+<pre class="example">sudo yum install cfitsio
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-6-2" class="outline-4">
+<h4 id="sec-1-6-2">Mac OS X via Homebrew</h4>
+<div class="outline-text-4" id="text-1-6-2">
+
+
+
+
+<pre class="example">brew install cfitsio
+</pre>
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-6-3" class="outline-4">
+<h4 id="sec-1-6-3">Other</h4>
+<div class="outline-text-4" id="text-1-6-3">
+
+<p>Install from <a href="http://freshmeat.net/projects/cfitsio">source</a>, e.g., like this:
+</p>
+
+
+<pre class="example">wget ftp://heasarc.gsfc.nasa.gov/software/fitsio/c/cfitsio3250.tar.gz
+tar xzf cfitsio3250.tar.gz
+cd cfitsio
+./configure --prefix=/usr/local
+make
+sudo make install
+</pre>
+
+<p>
+Of course, you will want to change <code>3250</code> to te latest version. If you don't have <code>wget</code> you can use <code>curl</code> instead (<code>curl URL -o FILENAME</code>). 
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="postamble">
+<p class="date">Date: 2012-01-18 22:41:03 CST</p>
+<p class="author">Author: William Henney</p>
+<p class="creator">Org version 7.8.02 with Emacs version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
+</div>
+</body>
+</html>
