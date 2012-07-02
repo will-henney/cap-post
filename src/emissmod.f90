@@ -46,6 +46,51 @@ contains
   end function emissivity
   
 
+
+  function pah_emissivity(d, x, av) result(e)
+    ! cannot be elemental since depends on the grid indices
+    real, dimension(:,:,:), intent(in) :: d, x, av
+    real, dimension(size(d,1),size(d,2),size(d,3)) :: e
+    integer :: i, j, k
+    integer :: i0, j0, k0
+    real, save :: rsq, fuvflux
+    !$OMP THREADPRIVATE(rsq, fuvflux)
+    real, parameter :: pi = 3.14159265358979
+    ! Hardwire source position to center of grid for now
+    ! FIXME - this will not work for globule sims
+    i0 = size(d,1)/2
+    j0 = size(d,2)/2
+    k0 = size(d,3)/2
+    !$OMP PARALLEL
+    !$OMP DO
+    do k=1, size(d,1); do j=1, size(d,2); do i=1, size(d,3)
+       rsq = max(1.0, real((i-i0)**2 + (j-j0)**2 + (k-k0)**2))
+       ! this is the attenuation and dilution of the FUV field, as in
+       ! heat_fuv line of pdr_heat in pdr.f90
+       fuvflux = exp(-1.9*av(i,j,k))/(4.0*pi*rsq)
+       ! PAH abundance assumed proportional to neutral fraction
+       e(i,j,k) = d(i,j,k)*(1.0-x(i,j,k))*fuvflux
+    end do; end do; end do
+    !$OMP END DO
+    !$OMP END PARALLEL
+    ! To put this in real units, it must be multiplied by a factor
+    !
+    ! L(fuv) eta sigma / (dx)^2 / (mu m_h)
+    !
+    ! where
+    !
+    ! L(fuv) : FUV luminosity of source (erg/s)
+    ! eta    : Reprocessing efficiency of PAHs (about 0.1, see Bakes,
+    !          Tielens, & Bauschlischer 2001, Figure 7)
+    ! sigma  : PAH cross-section (cm^2)
+    ! dx     : cell size (cm)
+    ! mu m_h : mean mass per H atom
+    ! 
+    ! Units of e, as calculated above: g/cm^3
+    ! Correct units, after multiplying by the factor: erg/s/cm^3
+  end function pah_emissivity
+
+
   elemental function emissivity_dp(d, x, t) result(e)
     real(DP), intent(in) :: d, x, t
     real(DP) :: e
