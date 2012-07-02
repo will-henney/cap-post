@@ -1,7 +1,9 @@
 *.o
 *.mod
-/src/cubet
-/src/cubevr
-/src/cubeemiss
-/src/makemap
-/src/makerotmapsmall
+src/cubet
+src/cubevr
+src/cubeemiss
+src/makemap
+src/makerotmapsmall
+src/makerotmap
+src/cubeav

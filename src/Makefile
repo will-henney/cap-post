@@ -4,7 +4,7 @@ LFITS=/usr/local/lib/libcfitsio.a
 -include local.mk # optionally override compiler and flags with this file
 
 EXECS= \
-     cubet cubevr cubeemiss makemap makerotmap makerotmapsmall
+     cubeav cubet cubevr cubeemiss makemap makerotmap makerotmapsmall
 
 all: $(EXECS)
 
@@ -15,6 +15,7 @@ clean:
 .f90.o:  
 	$(F90C) $(F90FLAGS) -c $<
 
+cubeav.o:  wfitsutils.o findcolumn_standalone.o
 cubet.o:  wfitsutils.o
 cubevr.o:  wfitsutils.o
 cubeemiss.o:  wfitsutils.o emissmod.o
@@ -22,6 +23,9 @@ emissmod.o: em2levmod.o
 makemap.o: wfitsutils.o emissmod.o
 makerotmap.o: cuberotate.o wfitsutils.o emissmod.o
 makerotmapsmall.o: cuberotate.o wfitsutils.o emissmod.o
+
+cubeav: cubeav.o wfitsutils.o findcolumn_standalone.o
+	$(F90C) $(F90FLAGS) -o $@ $^ $(LFITS)
 
 cubet: cubet.o wfitsutils.o
 	$(F90C) $(F90FLAGS) -o $@ $^ $(LFITS)
