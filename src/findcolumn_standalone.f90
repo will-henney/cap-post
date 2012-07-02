@@ -130,6 +130,9 @@ contains
     ! Find along which dimension we are furthest from the source
     ! We will call this the zz axis
     ijkzz = maxloc( abs(xyzp - xyz0), dim=1)
+    ! So these are the other two axes, xx and yy, giving the plane
+    ! where we interpolate the coldens
+    ijkxx = 1 + modulo(ijkzz, 3)
     ijkyy = 1 + modulo(ijkzz+1, 3)
 
 
@@ -146,9 +149,9 @@ contains
          & merge('+', '-', (/di, dj, dk/) > 0), &
          & lamold, xx_lamold, yy_lamold, a, b
     if (idebug > 2) print '(a,es10.2)', 'Total path: ', total_path
-    if (a < -1.0e-6_dp .or. a - 1.0_dp > 1.0e-6_dp) &
+    if (a < -1.0e-3_dp .or. a - 1.0_dp > 1.0e-3_dp) &
          & print *, '!!! a out of range: ', a, '!!!'
-    if (b < -1.0e-6_dp .or. b - 1.0_dp > 1.0e-6_dp) &
+    if (b < -1.0e-3_dp .or. b - 1.0_dp > 1.0e-3_dp) &
          & print *, '!!! b out of range: ', b, '!!!'
 
     select case (ijkzz)
