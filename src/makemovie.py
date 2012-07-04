@@ -21,7 +21,7 @@ parser.add_argument(
     help="Time to use (for tumble) or start time (for evo)")
 
 parser.add_argument(
-    "--brightscale", type=float, default=2.e8,
+    "--brightscale", type=float, default=1e7,
     help="Scale for maximum brightness in the middle channel")
 
 parser.add_argument(
@@ -59,6 +59,7 @@ movie = Movie(
     )
 movie.imageprefix = "rgb-{}-{}-{}".format(cmd_args.emshort, movie.runid, movie.movieid)
 movie.emtypes = cmd_args.emtypes
+movie.brightmax = cmd_args.brightscale
 movie.bandscales = cmd_args.bandscales
 movie.boxsize = 4.0
 movie.camera.set_angles(*cmd_args.orient)
