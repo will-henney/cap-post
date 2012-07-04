@@ -1,9 +1,10 @@
 *.o
 *.mod
-src/cubet
-src/cubevr
-src/cubeemiss
-src/makemap
-src/makerotmapsmall
-src/makerotmap
-src/cubeav
+*.pyc
+*/cubet
+*/cubevr
+*/cubeemiss
+*/makerotmap
+*/makemap
+*/makerotmapsmall
+*/cubeav
