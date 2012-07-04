@@ -58,6 +58,7 @@ movie = Movie(
     verbose=1, force=0,
     )
 movie.imageprefix = "rgb-{}-{}-{}".format(cmd_args.emshort, movie.runid, movie.movieid)
+movie.emtypes = cmd_args.emtypes
 movie.bandscales = cmd_args.bandscales
 movie.boxsize = 4.0
 movie.camera.set_angles(*cmd_args.orient)
