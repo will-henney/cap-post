@@ -105,12 +105,12 @@ class Movie(object):
 	"""
 	Returns the file name of the given emissivity cube
 
-	E.g., Bstar-e-Halpha0060
+	E.g., 04052012_4_0009e-N26584.fits 
 	"""
-	return "%s-e-%s%4.4i.fits" % (
+	return "%s_%4.4ie-%s.fits" % (
 	    self.runid,
-	    emtype,
 	    self.time,
+	    emtype,
 	    )
 
     def makeRGBimage(self, gamma=None):
