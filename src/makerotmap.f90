@@ -45,14 +45,21 @@ program makerotmap
   ! Garrelt cubes are already in cm^-3 !!!
 !   d = d/(1.3*1.67262158e-24)    ! convert to cm^-3
   dzz = zsize*3.085677582e18/real(nz) ! physical pixel scale
+
+  ! WJH 04 Mar 2009
+  ! Pre-allocate output cube to prevent truncation along zz axis
+  nxx = nx
+  nyy = ny
+  nzz = int(sqrt(real(nx**2 + ny**2 + nz**2))) ! longest diagonal possible
+  allocate(dd(nxx,nyy,nzz))
   call rotate(d, theta, phi, dd)
   deallocate(d)
-  nxx = size(dd, 1)
-  nyy = size(dd, 2)
-  nzz = size(dd, 3)
+
   print '("Rotated grid size: ",i0,"x",i0,"x",i0)', nxx, nyy, nzz
 
   call read_cube(e, 'e-'//emtype)
+  ! Pre-allocate this one too
+  allocate(ee(nxx,nyy,nzz))
   call rotate(e, theta, phi, ee)
   deallocate(e)
 
