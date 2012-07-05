@@ -63,5 +63,20 @@ movie.brightmax = cmd_args.brightscale
 movie.bandscales = cmd_args.bandscales
 movie.boxsize = 4.0
 movie.camera.set_angles(*cmd_args.orient)
-movie.camera.set_steps(360.0/movie.nframes, 360.0/movie.nframes)
+
+def bmaxvary(i): 
+    """
+    Smoothly varying brightness with time so that the movie looks good
+    """
+    return movie.brightmax/(1.0+(float(i)/10)**2)
+
+
+if cmd_args.mode == "tumble":
+    movie.camera.set_steps(360.0/movie.nframes, 360.0/movie.nframes)
+elif cmd_args.mode == "evo":
+    movie.camera.set_steps(0.0, 0.0)
+    movie.dtime = 1
+    movie.brightmaxfunc = bmaxvary
+else:
+    raise ValueError, "Unknown mode: {}".format(cmd_args.mode)
 movie.makemovie()
