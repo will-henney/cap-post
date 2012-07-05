@@ -64,11 +64,20 @@ movie.bandscales = cmd_args.bandscales
 movie.boxsize = 4.0
 movie.camera.set_angles(*cmd_args.orient)
 
-def bmaxvary(i): 
+def bmaxNHO(i): 
     """
     Smoothly varying brightness with time so that the movie looks good
     """
     return movie.brightmax/(1.0+(float(i)/10)**2)
+
+def bmaxCPF(i): 
+    """
+    Smoothly varying brightness with time so that the movie looks good
+
+    This version keeps the R band constant, while G and B bands get brighter with time
+    """
+    return [movie.brightmax, movie.brightmax0(1.0+(float(i)/70)**2), movie.brightmax/(1.0+(float(i)/50)**2)]
+
 
 
 if cmd_args.mode == "tumble":
@@ -76,7 +85,10 @@ if cmd_args.mode == "tumble":
 elif cmd_args.mode == "evo":
     movie.camera.set_steps(0.0, 0.0)
     movie.dtime = 1
-    movie.brightmaxfunc = bmaxvary
+    if cmd_args.emshort = "NHO":
+        movie.brightmaxfunc = bmaxNHO
+    elif cmd_args.emshort = "CPF":
+        movie.brightmaxfunc = bmaxCPF
 else:
     raise ValueError, "Unknown mode: {}".format(cmd_args.mode)
 movie.makemovie()
