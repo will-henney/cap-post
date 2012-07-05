@@ -85,9 +85,9 @@ if cmd_args.mode == "tumble":
 elif cmd_args.mode == "evo":
     movie.camera.set_steps(0.0, 0.0)
     movie.dtime = 1
-    if cmd_args.emshort = "NHO":
+    if cmd_args.emshort == "NHO":
         movie.brightmaxfunc = bmaxNHO
-    elif cmd_args.emshort = "CPF":
+    elif cmd_args.emshort == "CPF":
         movie.brightmaxfunc = bmaxCPF
 else:
     raise ValueError, "Unknown mode: {}".format(cmd_args.mode)
