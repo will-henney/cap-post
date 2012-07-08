@@ -64,6 +64,7 @@ class Movie(object):
     makerotmap = "makerotmap" 	# may be swapped to makerotmapsmall
 
     # Options for video encoding
+    encoder = "mencoder"
     vcodec = "wmv2"             # or msmpeg4v2 or x264
     containerformat = "avi"           # or mp4
 
@@ -172,20 +173,29 @@ class Movie(object):
     def makemovie(self):
 	if len(self.imagelist) != self.nframes:
 	    self.makeimages()
-	encode_exec = "mencoder"
-        if self.vcodec in ["x264", "xvid"]:
-            # formats directly supported by mencoder
-            encode_args = "-ovc %s" % (self.vcodec)
-            if self.vcodec == "x264":
-                # best quality settings
-                encode_args += " -x264encopts bitrate=900:subq=6:partitions=all:8x8dct:me=umh:frameref=5:bframes=3:b_pyramid=normal:weight_b:threads=auto"
+        if self.encoder == "mencoder":
+            if self.vcodec in ["x264", "xvid"]:
+                # formats directly supported by mencoder
+                encode_args = "-ovc %s" % (self.vcodec)
+                if self.vcodec == "x264":
+                    # best quality settings
+                    encode_args += " -x264encopts bitrate=900:subq=6:partitions=all:8x8dct:me=umh:frameref=5:bframes=3:b_pyramid=normal:weight_b:threads=auto"
+            else:
+                # formats that are farmed out to libavcodec
+                encode_args = "-ovc lavc -lavcopts vbitrate=5000:vcodec=%s" % (self.vcodec)
+            encode_args += " -mf type=png:fps=15"
+            file_args = "-of lavf -o %s.%s" % (self.imageprefix, self.containerformat)
+            file_args += r" mf://%s\*.png" % (self.imageprefix)
+        elif self.encoder == "ffmpeg":
+            # Direct use of ffmpeg for MPEG4 encoding at 4Mb/s
+            if self.containerformat in ["mp4"]:
+                encode_args = "-r 15 -b 4000000"
+                file_args = "-i %s-%%04d.png %s.%s" % (self.imageprefix, self.imageprefix, self.containerformat) 
+            else:
+                raise ValueError, "Container format %s not supported with ffmpeg" % (self.containerformat)
         else:
-            # formats that are farmed out to libavcodec
-            encode_args = "-ovc lavc -lavcopts vbitrate=5000:vcodec=%s" % (self.vcodec)
-        encode_args += " -mf type=png:fps=15"
-	file_args = "-of lavf -o %s.%s" % (self.imageprefix, self.containerformat)
-        file_args += r" mf://%s\*.png" % (self.imageprefix)
- 	cmd = "%s %s %s" % (encode_exec, encode_args, file_args)
+            raise ValueError, "Unrecognised encoder: %s" % (self.encoder)
+ 	cmd = "%s %s %s" % (self.encoder, encode_args, file_args)
 	subprocess.Popen(cmd, shell=True).wait()
 	print "Written %s.%s" % (self.imageprefix, self.containerformat)
 
