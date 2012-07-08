@@ -44,6 +44,14 @@ parser.add_argument(
     "--frames", type=int, default=72,
     help="Number of frames in movie")
 
+parser.add_argument(
+    "--vcodec", type=str, choices=("wmv2", "x264"), default="wmv2",
+    help="Video codec to use")
+
+parser.add_argument(
+    "--containerformat", type=str, choices=("avi", "mp4"), default="avi",
+    help="Video container format to use")
+
 
 cmd_args = parser.parse_args()
        
@@ -61,6 +69,8 @@ movie.imageprefix = "rgb-{}-{}-{}".format(cmd_args.emshort, movie.runid, movie.m
 movie.emtypes = cmd_args.emtypes
 movie.brightmax = cmd_args.brightscale
 movie.bandscales = cmd_args.bandscales
+movie.vcodec = cmd_args.vcodec
+movie.containerformat = cmd_args.containerformat
 movie.boxsize = 4.0
 movie.camera.set_angles(*cmd_args.orient)
 
@@ -77,7 +87,6 @@ def bmaxCPF(i):
     This version keeps the R band constant, while G and B bands get brighter with time
     """
     return [cmd_args.brightscale, cmd_args.brightscale/(1.0+(float(i)/70)**2), cmd_args.brightscale/(1.0+(float(i)/50)**2)]
-
 
 
 if cmd_args.mode == "tumble":
