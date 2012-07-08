@@ -68,7 +68,7 @@ def bmaxNHO(i):
     """
     Smoothly varying brightness with time so that the movie looks good
     """
-    return movie.brightmax/(1.0+(float(i)/10)**2)
+    return cmd_args.brightscale/(1.0+(float(i)/10)**2)
 
 def bmaxCPF(i): 
     """
@@ -76,7 +76,7 @@ def bmaxCPF(i):
 
     This version keeps the R band constant, while G and B bands get brighter with time
     """
-    return [movie.brightmax, movie.brightmax0(1.0+(float(i)/70)**2), movie.brightmax/(1.0+(float(i)/50)**2)]
+    return [cmd_args.brightscale, cmd_args.brightscale/(1.0+(float(i)/70)**2), cmd_args.brightscale/(1.0+(float(i)/50)**2)]
 
 
 

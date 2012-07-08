@@ -159,6 +159,8 @@ class Movie(object):
 	for self.frame in framerange:
 	    if self.brightmaxfunc: # make sure brightmax is up to date
 		self.brightmax = self.brightmaxfunc(self.time)
+                if self.verbose > 0:
+                    print "Time: {}, brightmax: {}".format(self.time, self.brightmax)
 	    self.imagelist.append(self.makeRGBimage())
 	    self.camera.advance(1)
 	    self.time += self.dtime
