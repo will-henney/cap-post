@@ -45,7 +45,7 @@ parser.add_argument(
     help="Number of frames in movie")
 
 parser.add_argument(
-    "--vcodec", type=str, choices=("wmv2", "x264"), default="wmv2",
+    "--vcodec", type=str, choices=("wmv2", "x264", "msmpeg4v2"), default="wmv2",
     help="Video codec to use")
 
 parser.add_argument(
