@@ -53,8 +53,8 @@ parser.add_argument(
     help="Video container format to use")
 
 parser.add_argument(
-    "--encoder" type=str, choices=("mencoder", "ffmpeg"), default="ffmpeg",
-    help="Video encoding program to use"
+    "--encoder", type=str, choices=("mencoder", "ffmpeg"), default="ffmpeg",
+    help="Video encoding program to use")
 
 cmd_args = parser.parse_args()
        
