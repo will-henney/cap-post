@@ -45,13 +45,16 @@ parser.add_argument(
     help="Number of frames in movie")
 
 parser.add_argument(
-    "--vcodec", type=str, choices=("wmv2", "x264", "msmpeg4v2"), default="wmv2",
+    "--vcodec", type=str, choices=("wmv2", "x264", "msmpeg4v2"), default="x264",
     help="Video codec to use")
 
 parser.add_argument(
-    "--containerformat", type=str, choices=("avi", "mp4"), default="avi",
+    "--containerformat", type=str, choices=("avi", "mp4"), default="mp4",
     help="Video container format to use")
 
+parser.add_argument(
+    "--encoder" type=str, choices=("mencoder", "ffmpeg"), default="ffmpeg",
+    help="Video encoding program to use"
 
 cmd_args = parser.parse_args()
        
@@ -71,6 +74,7 @@ movie.brightmax = cmd_args.brightscale
 movie.bandscales = cmd_args.bandscales
 movie.vcodec = cmd_args.vcodec
 movie.containerformat = cmd_args.containerformat
+movie.encoder = cmd_args.encoder
 movie.boxsize = 4.0
 movie.camera.set_angles(*cmd_args.orient)
 
