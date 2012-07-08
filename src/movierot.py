@@ -63,6 +63,10 @@ class Movie(object):
 
     makerotmap = "makerotmap" 	# may be swapped to makerotmapsmall
 
+    # Options for video encoding
+    vcodec = "wmv2"             # or msmpeg4v2 or x264
+    containerformat = "avi"           # or mp4
+
 #     simtype = None
 #     simtypes = ['Garrelt', 'Cap3D', 'Fabio']
 #     denid = {'Garrelt': 'd', 'Fabio': 'dd'}
@@ -167,11 +171,21 @@ class Movie(object):
 	if len(self.imagelist) != self.nframes:
 	    self.makeimages()
 	encode_exec = "mencoder"
-	encode_args = "-ovc lavc -lavcopts vbitrate=5000:vcodec=wmv2 -mf type=png:fps=15"
-	file_args = r"-o %s.avi mf://%s\*.png" % (self.imageprefix, self.imageprefix)
-	cmd = "%s %s %s" % (encode_exec, encode_args, file_args)
+        if self.vcodec in ["x264", "xvid"]:
+            # formats directly supported by mencoder
+            encode_args = "-ovc %s" % (self.vcodec)
+            if self.vcodec == "x264":
+                # best quality settings
+                encode_args += " -x264encopts bitrate=900:subq=6:partitions=all:8x8dct:me=umh:frameref=5:bframes=3:b_pyramid=normal:weight_b:threads=auto"
+        else:
+            # formats that are farmed out to libavcodec
+            encode_args = "-ovc lavc -lavcopts vbitrate=5000:vcodec=%s" % (self.vcodec)
+        encode_args += " -mf type=png:fps=15"
+	file_args = "-of lavf -o %s.%s" % (self.imageprefix, self.containerformat)
+        file_args += r" mf://%s\*.png" % (self.imageprefix)
+ 	cmd = "%s %s %s" % (encode_exec, encode_args, file_args)
 	subprocess.Popen(cmd, shell=True).wait()
-	print "Written %s.avi" % (self.imageprefix)
+	print "Written %s.%s" % (self.imageprefix, self.containerformat)
 
     def makefitsmap(self, emtype):
 	"""
