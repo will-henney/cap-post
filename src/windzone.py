@@ -12,7 +12,10 @@ def parseargs():
         description="Find the zone that is dominated by the stellar wind ram pressure")
     parser.add_argument('id', type=str, help="File prefix", default="04052012_4_0030")
     parser.add_argument('--verbose', '-v', action="store_true", help="Give verbose info about progress")
-    parser.add_argument('--boost', type=float, default=1.0, help="Boost factor for wind momentum (wrt M/1e-7 V/1e3 = 4.2)")
+    parser.add_argument('--boost', type=float, default=1.0, 
+                        help="Boost factor for wind momentum (wrt M/1e-7 V/1e3 = 4.2)")
+    parser.add_argument('--connection', type=str, default="all", choices=("all", "ortho"), 
+                        help="Allowed connection for a contiguous region")
     return parser.parse_args()
 
 cmd_args = parseargs()
@@ -33,7 +36,18 @@ iswind = cmd_args.boost*pw.data > (pr.data + p.data)
 
 # divide iswind into mutually connected "features"
 if cmd_args.verbose: print "Labeling features..."
-structure = np.ones((3, 3, 3))  # include diagonal connections to boost percolation
+
+if cmd_args.connection == "all":
+    # include diagonal connections to boost percolation
+    structure = np.ones((3, 3, 3))  
+else:
+    # include only orthogonal connections
+    structure = np.array([
+        [[0, 0, 0], [0, 1, 0], [0, 0, 0]],
+        [[0, 1, 0], [1, 1, 1], [0, 1, 0]],
+        [[0, 0, 0], [0, 1, 0], [0, 0, 0]]
+        ])
+
 labeled_array, num_features = ndimage.label(iswind, structure=structure)
 
 # we are only interested in the central "feature" around the star
