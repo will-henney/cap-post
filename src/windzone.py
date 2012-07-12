@@ -7,14 +7,17 @@ import numpy as np
 from scipy import ndimage
 import argparse
 
-def parseargs:
+def parseargs():
     parser = argparse.ArgumentParser(
         description="Find the zone that is dominated by the stellar wind ram pressure")
-    parser.add_argument('id', help="File prefix", default="04052012_4_0030")
+    parser.add_argument('id', type=str, help="File prefix", default="04052012_4_0030")
+    parser.add_argument('--verbose', '-v', action="store_true", help="Give verbose info about progress")
+    parser.add_argument('--boost', type=float, default=1.0, help="Boost factor for wind momentum (wrt M/1e-7 V/1e3 = 4.2)")
     return parser.parse_args()
 
 cmd_args = parseargs()
 
+if cmd_args.verbose: print "Reading pressure cubes..."
 p, = pyfits.open(cmd_args.id + "p.fits") # gas pressure
 # cubewind must have been run first to generate these files
 pr, = pyfits.open(cmd_args.id + "pr.fits") # HII region inward ram pressure
@@ -25,15 +28,18 @@ pw, = pyfits.open(cmd_args.id + "pw.fits") # Wind ram pressure
 ## First approximation - assume that shell is momentum driven
 ##
 # logical array where wind ram pressure beats all else
-iswind = pw.data > (pr.data + p.data)
+if cmd_args.verbose: print "Comparing pressures..."
+iswind = cmd_args.boost*pw.data > (pr.data + p.data)
 
 # divide iswind into mutually connected "features"
+if cmd_args.verbose: print "Labeling features..."
 structure = np.ones((3, 3, 3))  # include diagonal connections to boost percolation
 labeled_array, num_features = ndimage.label(iswind, structure=structure)
 
 # we are only interested in the central "feature" around the star
-nz, ny, nx = p.shape
+nz, ny, nx = p.data.shape
 ilabel = labeled_array[nz/2, ny/2, nx/2] # find label of central feature
+if cmd_args.verbose: print "Isolating central feature..."
 iswind = labeled_array == ilabel
 
 ##
@@ -42,8 +48,14 @@ iswind = labeled_array == ilabel
 ##
 
 # X-ray emissivity
-em = iswind.astype(np.float)    # 1.0 or 0.0 where iswind is True or False
+if cmd_args.verbose: print "Calculating x-ray emissivity..."
+em = iswind.astype(np.float32)    # 1.0 or 0.0 where iswind is True or False
 
+if cmd_args.verbose: print "Writing emissivity cube..."
 hdu = pyfits.PrimaryHDU(em)
-hdu.writeto(cmd_args.id + "e-X00mom.fits")
+hdu.writeto(cmd_args.id + "e-X{:02}mom.fits".format(int(cmd_args.boost)), clobber=True)
 
+if cmd_args.verbose: print "Removing hole from Ha emissivity cube..."
+ha, = pyfits.open(cmd_args.id + "e-Halpha.fits")
+ha.data *= 1.0 - em             # remove X-ray hole from H alpha
+ha.writeto(cmd_args.id + "e-HaX{:02}m.fits".format(int(cmd_args.boost)), clobber=True)
