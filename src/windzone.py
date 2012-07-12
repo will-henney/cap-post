@@ -56,6 +56,28 @@ ilabel = labeled_array[nz/2, ny/2, nx/2] # find label of central feature
 if cmd_args.verbose: print "Isolating central feature..."
 iswind = labeled_array == ilabel
 
+# Find volume of wind region
+ncells = iswind.sum()
+print "Volume fraction occupied by wind: ", float(ncells) / (nx*ny*nz)
+
+PARSEC = 3.085677582e18
+YEAR = 3.15576e7
+MSUN = 1.989e33
+KM = 1.0e5
+dx = (4.0 / nx) * PARSEC
+t = (10000.0*YEAR)*float(cmd_args.id.split("_")[-1])
+
+windvolume = ncells*dx**3
+# canonical wind parameters from GAHA2001 sec 5.2 
+Mdot = (1.e-6*MSUN/YEAR) * 0.35 * cmd_args.boost
+Vwind = (1000.0*KM) * 1.2
+# Total wind energy
+Ewind = 0.5 * Mdot * Vwind**2
+# Wind pressure: (gamma - 1) E / V
+Pwind = (2./3.)*Ewind/windvolume
+
+print "Shocked wind pressure in energy-driven case would be: ", Pwind
+
 ##
 ## Note that this is not really realistic since if it were really
 ## momentum driven, then there would be radial shadowing
