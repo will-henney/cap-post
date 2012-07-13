@@ -18,6 +18,8 @@ def parseargs():
                         help="Calculate energy driven instead of momentum driven case")
     parser.add_argument('--stats', action="store_true", 
                         help="Calculate statistics for the wind zone (which may be slow if it is large)")
+    parser.add_argument('--slowmethod', action="store_true", 
+                        help="DEPRECATED Use a method that can find the inner wind zone even if it doesn't include the grid center")
     parser.add_argument('--efrac', type=float, default=5.0/11.0, 
                         help="Fraction of wind mechanical luminosity that goes into thermal energy of bubble")
     parser.add_argument('--pguess', type=float, default=3.0e-10, 
@@ -44,10 +46,11 @@ ptot = pr.data + p.data
 if cmd_args.verbose: print "Comparing pressures..."
 if cmd_args.energy:
     # energy-driven case
-    iswind = ptot < cmd_args.pguess
+    # but allow wind ram pressure to help too
+    iswind = (cmd_args.pguess + cmd_args.boost*pw.data) > ptot
 else:
     # momentum-driven case
-    iswind = cmd_args.boost*pw.data > (pr.data + p.data)
+    iswind = cmd_args.boost*pw.data > ptot
 
 # divide iswind into mutually connected "features"
 if cmd_args.verbose: print "Labeling features..."
@@ -68,21 +71,26 @@ labeled_array, num_features = ndimage.label(iswind, structure=structure)
 # we are only interested in the central "feature" around the star
 nz, ny, nx = p.data.shape
 
-# array of radii from central source
-if cmd_args.verbose: print "Constructing radius array..."
-x = np.arange(nx) - float(nx-1)/2
-y = x[:,None]
-z = y[:,:,None]
-r = np.sqrt(x**2 + y**2 + z**2)
+if cmd_args.slowmethod:
+    # This should not be necessary any more
+    # array of radii from central source
+    if cmd_args.verbose: print "Constructing radius array..."
+    x = np.arange(nx) - float(nx-1)/2
+    y = x[:,None]
+    z = y[:,:,None]
+    r = np.sqrt(x**2 + y**2 + z**2)
 
-# find point closest to center of grid that satisfies the wind zone condition
-icenter = r[iswind].argmin()
+    # find point closest to center of grid that satisfies the wind zone condition
+    icenter = r[iswind].argmin()
 
-ilabel = labeled_array[iswind][icenter] # find label of central feature
+    ilabel = labeled_array[iswind][icenter] # find label of central feature
+    print "Grid center total pressure = ", ptot[nz/2, ny/2, nx/2] 
+    print "Central feature total pressure = ", ptot[iswind][icenter], " at distance from center of ", r[iswind][icenter]
+else:
+    ilabel = labeled_array[nz/2, ny/2, nx/2]
+
 print "Central feature label = ", ilabel
 if ilabel == 0: ilabel = 1
-print "Grid center total pressure = ", ptot[nz/2, ny/2, nx/2] 
-print "Central feature total pressure = ", ptot[iswind][icenter], " at distance from center of ", r[iswind][icenter]
 
 if cmd_args.verbose: print "Isolating central feature..."
 iswind = labeled_array == ilabel
