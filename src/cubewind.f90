@@ -2,7 +2,7 @@ program cubewind
   ! calculates the ram pressure of the stellar wind and of the inward HII region flow
   use wfitsutils
   implicit none
-  real, dimension(:,:,:), allocatable :: u, v, w, vr, x, y, z, r, p, d, pr, pw
+  real, dimension(:,:,:), allocatable :: u, v, w, vr, x, y, z, r, p, d, pr, pw, pv
   character(len=128) :: prefix
   integer :: nx, ny, nz, i, j, k
   real, parameter :: MU = 1.3, MH = 1.67262158e-24, KM = 1.0e5
@@ -50,10 +50,10 @@ program cubewind
   r = sqrt(x**2 + y**2 + z**2)
   vr = (u*x + v*y + w*z)/r
 
-  deallocate(x, y, z, u, v, w)  ! individual components no longer required
+  deallocate(x, y, z)  ! individual components no longer required
 
 
-  allocate( pr(nx, ny, nz), pw(nx, ny, nz),  &
+  allocate( pr(nx, ny, nz), pw(nx, ny, nz), pv(nx, ny, nz),  &
        &    p(nx, ny, nz), d(nx, ny, nz) )
 
   call fitsread(trim(prefix)//'d.fits'); d = fitscube            
@@ -69,8 +69,12 @@ program cubewind
   ! wind ram pressure
   pw = pw0/r**2
 
+  ! Total ram pressure 
+  pv = MU*MH*d*(KM**2)*(u**2 + v**2 + w**2)
+
   call fitswrite(vr, trim(prefix)//'vr.fits')
   call fitswrite(pr, trim(prefix)//'pr.fits')
+  call fitswrite(pv, trim(prefix)//'pv.fits')
   call fitswrite(pw, trim(prefix)//'pw.fits')
 
 !   open(1, file=trim(prefix)//'.vrstats', action='write')
