@@ -20,6 +20,8 @@ def parseargs():
                         help="Calculate statistics for the wind zone (which may be slow if it is large)")
     parser.add_argument('--slowmethod', action="store_true", 
                         help="DEPRECATED Use a method that can find the inner wind zone even if it doesn't include the grid center")
+    parser.add_argument('--xpowindex', type=float, default=0.0, 
+                        help="Power index of radius for x-ray emissivity")
     parser.add_argument('--efrac', type=float, default=5.0/11.0, 
                         help="Fraction of wind mechanical luminosity that goes into thermal energy of bubble")
     parser.add_argument('--pguess', type=float, default=3.0e-10, 
@@ -31,10 +33,15 @@ def parseargs():
 
 cmd_args = parseargs()
 
+isNeededRadius = cmd_args.slowmethod or (not cmd_args.xpowindex == 0.0)
+
 if cmd_args.verbose: print "Reading pressure cubes..."
 p, = pyfits.open(cmd_args.id + "p.fits") # gas pressure
 # cubewind must have been run first to generate these files
-pr, = pyfits.open(cmd_args.id + "pr.fits") # HII region inward ram pressure
+if cmd_args.energy:
+    pr, = pyfits.open(cmd_args.id + "pv.fits") # Total ram pressure
+else:
+    pr, = pyfits.open(cmd_args.id + "pr.fits") # HII region inward ram pressure
 pw, = pyfits.open(cmd_args.id + "pw.fits") # Wind ram pressure
 
 ptot = pr.data + p.data
@@ -71,8 +78,7 @@ labeled_array, num_features = ndimage.label(iswind, structure=structure)
 # we are only interested in the central "feature" around the star
 nz, ny, nx = p.data.shape
 
-if cmd_args.slowmethod:
-    # This should not be necessary any more
+if isNeededRadius:
     # array of radii from central source
     if cmd_args.verbose: print "Constructing radius array..."
     x = np.arange(nx) - float(nx-1)/2
@@ -80,6 +86,8 @@ if cmd_args.slowmethod:
     z = y[:,:,None]
     r = np.sqrt(x**2 + y**2 + z**2)
 
+if cmd_args.slowmethod:
+    # This should not be necessary any more
     # find point closest to center of grid that satisfies the wind zone condition
     icenter = r[iswind].argmin()
 
@@ -143,6 +151,10 @@ if not cmd_args.onlyinfo:
     # X-ray emissivity
     if cmd_args.verbose: print "Calculating x-ray emissivity..."
     em = iswind.astype(np.float32)    # 1.0 or 0.0 where iswind is True or False
+    if not cmd_args.xpowindex == 0.0:
+        RSCALE = 50.0
+        em *= (1.0 + (r/RSCALE))**cmd_args.xpowindex
+
 
     if cmd_args.verbose: print "Writing emissivity cube..."
     hdu = pyfits.PrimaryHDU(em)
