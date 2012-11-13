@@ -9,4 +9,7 @@
 */makerotmapsmall
 */cubeav
 /src/makevcubes
+/src/makerotmap
 /src/cubewind
+/src/local.mk
+/src/turbdiss
