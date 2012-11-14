@@ -18,7 +18,7 @@ contains
     real :: extinct
     real, parameter :: Vband_sigma = 5.3e-22 ! cm^2 per H nucleon
     select case (emtype)
-    case('neut00', 'neut01', 'FF06cm')
+    case('neut00', 'neut01', 'FF06cm', 'Turb-i', 'Turb-n')
        extinct = 0.0
     case('Halpha', 'S26731', 'S26716', 'N26584', 'O16300', 'S36312')
        extinct = 0.858

@@ -16,6 +16,8 @@ program makerotmap
   character(len=4) :: ctime
   character(len=13) :: rotid
   real :: extinct_sigma, zsize, dzz
+  logical, parameter :: verbose = .True.
+
 
   ! options are nearest/linear
   interpolation = interpolation_linear
@@ -68,6 +70,7 @@ program makerotmap
 
   call domap
 
+  if (verbose) print *, "Map calculation finished"
   call fitswrite(map, trim(prefix)//'map'//rotid//emtype//ctime//'.fits')
 
 contains
@@ -89,13 +92,18 @@ contains
 
   subroutine domap
     do i = 1, nx
+       ! if (verbose) print *, i
        do j = 1, ny
-          tau(1) = 0.0
-          do k = 2, nz
-             tau(k) = tau(k-1) + dd(i,j,k) 
-          end do
-          tau = tau*dzz*extinct_sigma
-          map(i, j) = sum(ee(i,j,:)*exp(-tau))
+          if (extinct_sigma >= 0.0) then
+             tau(1) = 0.0
+             do k = 2, nz
+                tau(k) = tau(k-1) + dd(i,j,k) 
+             end do
+             tau = tau*dzz*extinct_sigma
+             map(i, j) = sum(ee(i,j,:)*exp(-tau))
+          else
+             map(i, j) = sum(ee(i,j,:))
+          endif
        end do
     end do
   end subroutine domap
