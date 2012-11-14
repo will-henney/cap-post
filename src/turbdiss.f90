@@ -2,7 +2,8 @@ program turbdiss
   ! calculates the turbulent dissipation rate: \div . ( \vec{v} 1/2 rho v^2)
   use wfitsutils
   implicit none
-  real, dimension(:,:,:), allocatable :: u, v, w, d, ke, tu, ptu, uke, vke, wke
+  real, dimension(:,:,:), allocatable :: u, v, w, d, x
+  real, dimension(:,:,:), allocatable :: ke, tu, ptu, uke, vke, wke
   character(len=128) :: prefix
   integer :: nx, ny, nz
   real, parameter :: MU = 1.3, MH = 1.67262158e-24, KM = 1.0e5
@@ -33,15 +34,19 @@ program turbdiss
   ! KE density and turbulent dissipation rate
   allocate(ke(nx, ny, nz))
   ! 0.5 GB allocated -> 2.5 GB
-  ke = 0.5**d*(u**2 + v**2 + w**2)
+  ke = 0.5*d*(u**2 + v**2 + w**2) ! erg/cm^3
 
   if (verbose) print *, "KE assigned"
+  if (verbose) print *, "RMS velocity: ", sqrt(sum(u**2 + v**2 + w**2)/(nx*ny*nz)) 
+  if (verbose) print *, "Mean density: ", sum(d)/(nx*ny*nz) 
+  if (verbose) print *, "Mean KE: ", sum(ke)/(nx*ny*nz) 
 
   deallocate(d)
   ! 0.5 GB freed -> 2 GB
   allocate( uke(nx, ny, nz), vke(nx, ny, nz), wke(nx, ny, nz))
   ! 1.5 GB allocated -> 3.5 GB
-  uke = ke*u
+  ! find kinetic energy fluxes
+  uke = ke*u                    ! erg/cm^2/s
   vke = ke*v
   wke = ke*w
   deallocate( u, v, w, ke )
@@ -55,7 +60,7 @@ program turbdiss
   ! physical cell size
   dx = BOX_SIZE*PC/real(nx)
 
-  tu = -divergence(uke, vke, wke) / dx
+  tu = -divergence(uke, vke, wke) / dx ! erg/cm^3/s
   ! divergence allocates 4 new arrays: 2 GB allocated -> 4GB
   ! 2 GB freed -> 2 GB
 
@@ -74,12 +79,25 @@ program turbdiss
      ptu = 0.0
   end where
 
-  print "(a,es10.2,a)", "Total dissipation rate: ", sum(ptu)*(dx/(LSUN**(1./3.)))**3, " Lsun"
 
-  ! We save the full version to the FITS file, which is negative where the flow is divergent
+  ! We save the full version to the FITS file, 
+  ! which is negative where the flow is divergent
   call fitswrite(tu, trim(prefix)//'tu.fits')
-  
 
+  ! Also save separate versions for ionized and neutral gas
+  ! TODO: separate the neutral into atomic and molecular
+  allocate(x(nx, ny, nz))
+  call fitsread(trim(prefix)//'x.fits'); x = 1.0 - fitscube
+  ! Multiply by 1e18 to give numbers that ds9 can cope with 
+  call fitswrite(1.e18*ptu*x, trim(prefix)//'e-Turb-i.fits')
+  call fitswrite(1.e18*ptu*(1.0 - x), trim(prefix)//'e-Turb-n.fits')
+
+  print "(a,es10.2,a)", "Dissipation rate in ionized gas: ", &
+       & sum(ptu*x)*(dx/(LSUN**(1./3.)))**3, " Lsun"
+  print "(a,es10.2,a)", "Dissipation rate in neutral gas: ", &
+       & sum(ptu*(1.0 - x))*(dx/(LSUN**(1./3.)))**3, " Lsun"
+
+  
 contains
   function divergence(Ax, Ay, Az)
     ! Calculate divergence of the 3D vector field A = [Ax, Ay, Az]^T
