@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
 <meta name="title" content="<code>cap-post</code>"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2012-01-18 22:41:03 CST"/>
+<meta name="generated" content="2013-02-07T13:34-0600"/>
 <meta name="author" content="William Henney"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -77,6 +77,30 @@
    /*]]>*/-->
 </style>
 <script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
 <!--/*--><![CDATA[/*><!--*/
  function CodeHighlightOn(elem, id)
  {
@@ -98,13 +122,96 @@
  }
 /*]]>*///-->
 </script>
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=Accessible.js"></script>
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    "HTML-CSS": {
-      availableFonts: ["TeX"]
-    }
-  });
+<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js">
+/**
+ *
+ * @source: http://orgmode.org/mathjax/MathJax.js
+ *
+ * @licstart  The following is the entire license notice for the
+ *  JavaScript code in http://orgmode.org/mathjax/MathJax.js.
+ *
+ * Copyright (C) 2012-2013  MathJax
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in http://orgmode.org/mathjax/MathJax.js.
+ *
+ */
+
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code below.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code below is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code below.
+*/
+<!--/*--><![CDATA[/*><!--*/
+    MathJax.Hub.Config({
+        // Only one of the two following lines, depending on user settings
+        // First allows browser-native MathML display, second forces HTML/CSS
+        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
+                     "TeX/noUndefined.js"],
+        tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            ignoreClass: "tex2jax_ignore",
+            processEscapes: false,
+            processEnvironments: true,
+            preview: "TeX"
+        },
+        showProcessingMessages: true,
+        displayAlign: "center",
+        displayIndent: "2em",
+
+        "HTML-CSS": {
+             scale: 100,
+             availableFonts: ["STIX","TeX"],
+             preferredFont: "TeX",
+             webFont: "TeX",
+             imageFont: "TeX",
+             showMathMenu: true,
+        },
+        MMLorHTML: {
+             prefer: {
+                 MSIE:    "MML",
+                 Firefox: "MML",
+                 Opera:   "HTML",
+                 other:   "HTML"
+             }
+        }
+    });
+/*]]>*///-->
 </script>
 </head>
 <body>
@@ -132,7 +239,7 @@ All these programs work with datacubes in FITS format. See =<a href="http://gith
 <h3 id="sec-1-1">Package layout</h3>
 <div class="outline-text-3" id="text-1-1">
 
-<dl>
+<dl class="org-dl">
 <dt><code>doc/cap-post.org</code></dt><dd>Source for documentation in Org-mode format  
 </dd>
 <dt><code>doc/cap-post.html</code></dt><dd>Compiled HTML file of documentation
@@ -150,20 +257,20 @@ All these programs work with datacubes in FITS format. See =<a href="http://gith
 <h3 id="sec-1-2">Compilation</h3>
 <div class="outline-text-3" id="text-1-2">
 
-<ul>
+<ul class="org-ul">
 <li>First install the <a href="#Dependencies">dependencies</a>
 </li>
 <li>Enter the <code>src/</code> directory
 </li>
 <li>[OPTIONAL] Copy <code>local.mk.sample</code> to <code>local.mk</code> and edit it to specify the desired compiler command (<code>F90C</code>), compiler options (<code>F90LAGS</code>), and libraries to link (<code>LFITS</code>). 
-<ul>
+<ul class="org-ul">
 <li>The default values are 
 
 
 
-<pre class="example">    F90C=gfortran
-    F90FLAGS=-O3
-    LFITS=/usr/local/lib/libcfitsio.a
+<pre class="example">F90C=gfortran
+F90FLAGS=-O3
+LFITS=/usr/local/lib/libcfitsio.a
 </pre>
 
 </li>
@@ -171,16 +278,13 @@ All these programs work with datacubes in FITS format. See =<a href="http://gith
 
 </li>
 <li>Compile everything with 
-</li>
-</ul>
 
 
 
-
-<pre class="example">  make all
+<pre class="src src-bash">make all
 </pre>
 
-<ul>
+</li>
 <li>Most programs are designed to be run in the directory where the data is.  For convenience, you may want to set a shell variable to the directory where the programs are, e.g.: <code>psrc=/path/to/cap-post/src</code>.  So you can then type <code>sh $psrc/fitsemiss.sh ...</code> 
 </li>
 </ul>
@@ -201,11 +305,11 @@ The general default behavior of these scripts is to process all the save times o
 
 
 
-<pre class="example">sh SCRIPT.sh DATEID RUNID EMTYPE [I1] [I2] [ISTEP] 
+<pre class="src src-bash">sh SCRIPT.sh DATEID RUNID EMTYPE [I1] [I2] [ISTEP] 
 </pre>
 
 
-<dl>
+<dl class="org-dl">
 <dt>DATEID</dt><dd>something like <code>30112005</code>
 </dd>
 <dt>RUNID</dt><dd>the one-letter id code, such as <code>x</code>
@@ -305,13 +409,14 @@ Calculate surface brightness maps, for views along the 6 principal axes of the c
 <p>
 Calculate surface brightness map for view from an arbitrary direction. 
 </p>
+
 </div>
 </div>
 
 </div>
 
 <div id="outline-container-1-5" class="outline-3">
-<h3 id="sec-1-5">Library modules</h3>
+<h3 id="sec-1-5">Python programs</h3>
 <div class="outline-text-3" id="text-1-5">
 
 
@@ -319,26 +424,85 @@ Calculate surface brightness map for view from an arbitrary direction.
 </div>
 
 <div id="outline-container-1-5-1" class="outline-4">
-<h4 id="sec-1-5-1">wfitsutils</h4>
+<h4 id="sec-1-5-1">makemovie.py</h4>
 <div class="outline-text-4" id="text-1-5-1">
+
+
+<p>
+Make movies of evolution at a fixed viewing angle or rotation at a fixed evolutionary time. 
+</p>
+
+</div>
+
+<div id="outline-container-1-5-1-1" class="outline-5">
+<h5 id="sec-1-5-1-1">Examples of using makemovie.py</h5>
+<div class="outline-text-5" id="text-1-5-1-1">
+
+
+<p>
+These are the command that were used to generate the movies included in Will's talk at the Warsaw conference, July 2012.
+</p>
+
+
+
+<pre class="src src-sh"><span style="color: #8b8b83; font-style: italic;"># </span><span style="color: #8b8b83; font-style: italic;">Evolution movies</span>
+<span style="color: #00cdcd;">for</span> ANGLE<span style="color: #00cdcd;"> in</span> 0 215 135; <span style="color: #00cdcd;">do</span>
+    python ../cap-post/src/makemovie.py 04052012_4 <span style="color: #f0e68c; font-style: italic;">\</span>
+        --time 3 --mode evo --frames 28 --brightscale 1e8 --orient $<span style="color: #eedd82;">ANGLE</span> $<span style="color: #eedd82;">ANGLE</span> 
+    python ../cap-post/src/makemovie.py 04052012_4 <span style="color: #f0e68c; font-style: italic;">\</span>
+        --time 3 --mode evo --emtypes neut00 PAH000 FF06cm <span style="color: #f0e68c; font-style: italic;">\</span>
+        --emshort CPF --brightscale 1.0 --bandscales 3e6 0.15 0.25 <span style="color: #f0e68c; font-style: italic;">\</span>
+        --orient $<span style="color: #eedd82;">ANGLE</span> $<span style="color: #eedd82;">ANGLE</span> --frames 28 
+<span style="color: #00cdcd;">done</span>
+<span style="color: #8b8b83; font-style: italic;"># </span><span style="color: #8b8b83; font-style: italic;">Tumble movies</span>
+python ../cap-post/src/makemovie.py 04052012_4 --time 30
+python ../cap-post/src/makemovie.py 04052012_4 --time 20 --brightscale 2e7
+python ../cap-post/src/makemovie.py 04052012_4 --time 10
+<span style="color: #00cdcd;">for</span> TIME<span style="color: #00cdcd;"> in</span> 10 20 30; <span style="color: #00cdcd;">do</span>
+    python ../cap-post/src/makemovie.py 04052012_4 <span style="color: #f0e68c; font-style: italic;">\</span>
+        --time $<span style="color: #eedd82;">TIME</span> --emtypes neut00 PAH000 FF06cm --emshort CPF --brightscale 1.0 <span style="color: #f0e68c; font-style: italic;">\</span>
+        --bandscales 3e6 0.15 0.25
+<span style="color: #00cdcd;">done</span>
+</pre>
+
+
+
+
+</div>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-1-6" class="outline-3">
+<h3 id="sec-1-6">Library modules</h3>
+<div class="outline-text-3" id="text-1-6">
+
+
+
+</div>
+
+<div id="outline-container-1-6-1" class="outline-4">
+<h4 id="sec-1-6-1">wfitsutils</h4>
+<div class="outline-text-4" id="text-1-6-1">
 
 <p>Read and write FITS files.
 </p></div>
 
 </div>
 
-<div id="outline-container-1-5-2" class="outline-4">
-<h4 id="sec-1-5-2">emissmod</h4>
-<div class="outline-text-4" id="text-1-5-2">
+<div id="outline-container-1-6-2" class="outline-4">
+<h4 id="sec-1-6-2">emissmod</h4>
+<div class="outline-text-4" id="text-1-6-2">
 
 <p>General mechanism for emissivity calculations.
 </p></div>
 
 </div>
 
-<div id="outline-container-1-5-3" class="outline-4">
-<h4 id="sec-1-5-3">em2levmod</h4>
-<div class="outline-text-4" id="text-1-5-3">
+<div id="outline-container-1-6-3" class="outline-4">
+<h4 id="sec-1-6-3">em2levmod</h4>
+<div class="outline-text-4" id="text-1-6-3">
 
 <p>Specific functions for particular types of emission line.
 </p>
@@ -347,23 +511,23 @@ Calculate surface brightness map for view from an arbitrary direction.
 
 </div>
 
-<div id="outline-container-1-6" class="outline-3">
-<h3 id="sec-1-6">External dependencies</h3>
-<div class="outline-text-3" id="text-1-6">
+<div id="outline-container-1-7" class="outline-3">
+<h3 id="sec-1-7">External dependencies</h3>
+<div class="outline-text-3" id="text-1-7">
 
 <p>Many of the Fortran progams use my <code>wfitsutils</code> module, which depends on the CFITSIO library.  This may be installed as follows:
 </p>
 
 </div>
 
-<div id="outline-container-1-6-1" class="outline-4">
-<h4 id="sec-1-6-1">Fedora</h4>
-<div class="outline-text-4" id="text-1-6-1">
+<div id="outline-container-1-7-1" class="outline-4">
+<h4 id="sec-1-7-1">Fedora</h4>
+<div class="outline-text-4" id="text-1-7-1">
 
 
 
 
-<pre class="example">sudo yum install cfitsio
+<pre class="src src-bash">sudo yum install cfitsio
 </pre>
 
 
@@ -371,14 +535,14 @@ Calculate surface brightness map for view from an arbitrary direction.
 
 </div>
 
-<div id="outline-container-1-6-2" class="outline-4">
-<h4 id="sec-1-6-2">Mac OS X via Homebrew</h4>
-<div class="outline-text-4" id="text-1-6-2">
+<div id="outline-container-1-7-2" class="outline-4">
+<h4 id="sec-1-7-2">Mac OS X via Homebrew</h4>
+<div class="outline-text-4" id="text-1-7-2">
 
 
 
 
-<pre class="example">brew install cfitsio
+<pre class="src src-bash">brew install cfitsio
 </pre>
 
 
@@ -387,9 +551,9 @@ Calculate surface brightness map for view from an arbitrary direction.
 
 </div>
 
-<div id="outline-container-1-6-3" class="outline-4">
-<h4 id="sec-1-6-3">Other</h4>
-<div class="outline-text-4" id="text-1-6-3">
+<div id="outline-container-1-7-3" class="outline-4">
+<h4 id="sec-1-7-3">Other</h4>
+<div class="outline-text-4" id="text-1-7-3">
 
 <p>Install from <a href="http://freshmeat.net/projects/cfitsio">source</a>, e.g., like this:
 </p>
@@ -413,9 +577,9 @@ Of course, you will want to change <code>3250</code> to te latest version. If yo
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2012-01-18 22:41:03 CST</p>
+<p class="date">Date: 2013-02-07T13:34-0600</p>
 <p class="author">Author: William Henney</p>
-<p class="creator">Org version 7.8.02 with Emacs version 24</p>
+<p class="creator"><a href="http://orgmode.org">Org</a> version 7.9.3d with <a href="http://www.gnu.org/software/emacs/">Emacs</a> version 24</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 
 </div>

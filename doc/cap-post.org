@@ -82,6 +82,40 @@ Calculate surface brightness maps, for views along the 6 principal axes of the c
 
 Calculate surface brightness map for view from an arbitrary direction. 
 
+
+** Python programs
+
+*** makemovie.py
+
+Make movies of evolution at a fixed viewing angle or rotation at a fixed evolutionary time. 
+
+**** Examples of using makemovie.py
+
+These are the command that were used to generate the movies included in Will's talk at the Warsaw conference, July 2012.
+
+#+BEGIN_SRC sh
+# Evolution movies
+for ANGLE in 0 215 135; do
+    python ../cap-post/src/makemovie.py 04052012_4 \
+	--time 3 --mode evo --frames 28 --brightscale 1e8 --orient $ANGLE $ANGLE 
+    python ../cap-post/src/makemovie.py 04052012_4 \
+	--time 3 --mode evo --emtypes neut00 PAH000 FF06cm \
+	--emshort CPF --brightscale 1.0 --bandscales 3e6 0.15 0.25 \
+	--orient $ANGLE $ANGLE --frames 28 
+done
+# Tumble movies
+python ../cap-post/src/makemovie.py 04052012_4 --time 30
+python ../cap-post/src/makemovie.py 04052012_4 --time 20 --brightscale 2e7
+python ../cap-post/src/makemovie.py 04052012_4 --time 10
+for TIME in 10 20 30; do
+    python ../cap-post/src/makemovie.py 04052012_4 \
+	--time $TIME --emtypes neut00 PAH000 FF06cm --emshort CPF --brightscale 1.0 \
+	--bandscales 3e6 0.15 0.25
+done
+#+END_SRC
+
+
+
 ** Library modules
 
 *** wfitsutils
