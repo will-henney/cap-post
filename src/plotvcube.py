@@ -84,8 +84,10 @@ def main(cubename, slice_mode, display,  iwindow, vlimits):
         A, B = np.meshgrid(a, b)
         ax.contour(A, B, imslice)
     ax.grid()
-    fig.savefig("{}-{}-{}-{}.pdf".format(
-        prefix, slice_mode, iwindow[0], iwindow[1]))
+    figname = "{}-{}-{}-{}.pdf".format(
+        prefix, slice_mode, iwindow[0], iwindow[1])
+    fig.savefig(figname)
+    print "Figure saved to ", figname
 
 
 if __name__ == "__main__":
