@@ -85,6 +85,55 @@ Calculate surface brightness map for view from an arbitrary direction.
 
 ** Python programs
 
+
+
+*** plotvcube.py
+
+Produces PDF figures of isovelocity or position-velocity cuts through a PPV emission cube. 
+
+
+
+**** Command line options for plotvcube.py
+
+#+BEGIN_EXAMPLE
+$ python ../cap-post/src/plotvcube.py -h
+usage: plotvcube.py [-h] [--slice-mode {x-slit,y-slit,isovel}]
+                    [--display {contour,grayscale,both}]
+                    [--iwindow IWINDOW IWINDOW] [--vlimits VLIMITS VLIMITS]
+                    cubename
+
+Plot isovel and PV images from PPV emission cubes
+
+positional arguments:
+  cubename              Name of FITS file containing PPV emission cube
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --slice-mode {x-slit,y-slit,isovel}
+                        Mode of operation - which way to slice (default:
+                        isovel)
+  --display {contour,grayscale,both}
+                        How to display the image (default: both)
+  --iwindow IWINDOW IWINDOW
+                        Range of positions or velocities to sum over (in pixel
+                        units) (default: None)
+  --vlimits VLIMITS VLIMITS
+                        Minimum and maximum velocities in cube (default:
+                        [-78.107, 73.896])
+#+END_EXAMPLE
+
+**** Examples of using plotvcube.py
+
+Show PV image of narrow y-slit, summing from x=30 to x=35.  
+#+BEGIN_SRC sh
+python ../cap-post/src/plotvcube.py 10042012_y_0030vc-Halpha --slice-mode y-slit --iwindow 30 35
+#+END_SRC
+
+Show isovelocity image of broad velocity channel summing from v=1 to v=50.  
+#+BEGIN_SRC sh
+python ../cap-post/src/plotvcube.py 10042012_y_0030vc-Halpha --slice-mode isovel --iwindow 1 50
+#+END_SRC
+
 *** makemovie.py
 
 Make movies of evolution at a fixed viewing angle or rotation at a fixed evolutionary time. 
