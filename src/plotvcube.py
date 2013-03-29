@@ -1,6 +1,8 @@
 import numpy as np
 import argparse
 import os.path
+import matplotlib
+matplotlib.use('Agg') 
 import matplotlib.pyplot as plt
 try:
     import astropy.io.fits as pyfits
