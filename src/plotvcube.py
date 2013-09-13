@@ -72,7 +72,7 @@ def main(cubename, slice_mode, display,  iwindow, vlimits):
             ax.set_ylabel("y (pc)")
             ax.set_ylim(-2.0, 2.0)
             a, b = vpts, ypts
-            ax.set_title("x = {:.1f} to {:.1f} km/s".format(
+            ax.set_title("x = {:.1f} to {:.1f} pc".format(
                 xpts[i1], xpts[i2]))
     else:
         raise NotImplementedError("Unknown mode: " + slice_mode)
