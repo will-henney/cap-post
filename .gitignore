@@ -1,3 +1,4 @@
+*~
 *.o
 *.mod
 *.pyc
@@ -14,3 +15,4 @@
 /src/local.mk
 /src/turbdiss
 /.ropeproject/config.py
+/src/.ropeproject/config.py
