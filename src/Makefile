@@ -29,7 +29,12 @@ makerotmap.o: cuberotate.o wfitsutils.o emissmod.o
 makerotmapsmall.o: cuberotate.o wfitsutils.o emissmod.o
 makevcubes.o: wfitsutils.o psfutils.o fft.o
 psfutils.o: fft.o
+cubestats.o:  wfitsutils.o
 
+
+
+cubestats: cubestats.o wfitsutils.o
+	$(F90C) $(F90FLAGS) -o $@ $^ $(LFITS)
 
 makevcubes: makevcubes.o wfitsutils.o psfutils.o fft.o
 	$(F90C) $(F90FLAGS) -o $@ $^ $(LFITS)
