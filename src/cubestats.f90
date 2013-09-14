@@ -3,21 +3,22 @@ program cubestats
   ! 17 Jul 2008 - minimal modifications to work with the Fabio datasets
   use wfitsutils, only: fitsread, fitscube
   implicit none
-  real, parameter :: boltzmann_k = 1.3806503e-16, mp = 1.67262158e-24, mu = 1.3
-  real, dimension(:,:,:), allocatable :: d, x, u, v, w, r
+  integer, parameter :: dp = kind(1.0d0)
+  real(dp), parameter :: boltzmann_k = 1.3806503e-16, mp = 1.67262158e-24, mu = 1.3
+  real(dp), dimension(:,:,:), allocatable :: d, x, u, v, w, r
   logical, dimension(:,:,:), allocatable :: ion_mask, m
   character(len=128) :: prefix, fitsfilename
   integer :: it1, it2, it, itstep
   integer :: nx, ny, nz, i, j, k
-  real :: rmax
-  real :: rif_max, rif_min
-  real :: vrms_vol_t, vrms_vol_n, vrms_vol_i, sumx, sumy, sumz
-  real :: vrms_mass_t, vrms_mass_n, vrms_mass_i
-  real :: rx1, rx2, rmean_vol_i, rmean_mass_i
-  real :: frac_ion_vol1, frac_ion_vol2, frac_ion_mass
+  real(dp) :: rmax
+  real(dp) :: rif_max, rif_min
+  real(dp) :: vrms_vol_t, vrms_vol_n, vrms_vol_i, sumx, sumy, sumz
+  real(dp) :: vrms_mass_t, vrms_mass_n, vrms_mass_i
+  real(dp) :: rx1, rx2, rmean_vol_i, rmean_mass_i
+  real(dp) :: frac_ion_vol1, frac_ion_vol2, frac_ion_mass
   character(len=1), parameter :: TAB = achar(9)
   character(len=15) :: itstring
-  real, parameter :: pi = 3.14159265358979, cubesize = 4.0*3.086e18
+  real(dp), parameter :: pi = 3.14159265358979, cubesize = 4.0*3.086e18
 
   print *, 'Run prefix (e.g., 30112005_c)?'
   read '(a)', prefix
@@ -119,16 +120,17 @@ program cubestats
      do k = 1,nz
         do j = 1,ny
            do i = 1, nx
-              if(x(i,j,k)> 0.9)sumx = sumx + x(i,j,k)
+              if(x(i,j,k)> 0.9)sumx = sumx + 1.0
               if(r(i,j,k)< rmax)sumy = sumy + x(i,j,k)
-              sumz = sumz + x(i,j,k)
+              sumz = sumz + 1.0
            enddo
         enddo
      enddo
-     sumx = sumx/(real(nx)*real(ny)*real(nz))
-     sumy = sumy/real(nx*ny*nz)
-     sumz = sumz/real(nx*ny*nz)
+     ! sumx = sumx/(real(nx)*real(ny)*real(nz))
+     ! sumy = sumy/real(nx*ny*nz)
+     ! sumz = sumz/real(nx*ny*nz)
      print*,'done sumx, sumy, sumz ', sumx, sumy, sumz
+     print *, 'NX x NY x NZ = ', real(nx*ny*nz)
 
      frac_ion_mass = sum(x*d, mask=m)/sum(d)
      print*,'done frac_ion_mass'
