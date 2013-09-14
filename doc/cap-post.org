@@ -62,6 +62,16 @@ Runs =cubet=, =cubeemiss=, and =makemap= as necessary to generate the emission m
 These programs can be run individually if necessary, although it is generally easier to use the convenience scripts described above. 
 
 
+*** cubestats
+Calculate various statistics from the data cubes: 
++ Average radius of ionization front, calculated as cube root of volume / (4 pi/3):
+  + Volume calculated from mask =x > 0.9=
+  + Volume calculated by summing =x= over cells
++ Maximum and minimum i-front radii
++ Mean radius of ionized gas
++ RMS gas velocity dispersion (1D)
+  + Mass weighted and volume weighted
+  + For ionized and neutral gas
 *** cubet
 
 Calculate temperature cube
