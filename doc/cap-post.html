@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title><code>cap-post</code></title>
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-<meta name="title" content="<code>cap-post</code>"/>
-<meta name="generator" content="Org-mode"/>
-<meta name="author" content="William Henney"/>
-<meta name="description" content=""/>
-<meta name="keywords" content=""/>
+<!-- 2013-09-16 Mon 18:57 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="William Henney" />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
   .title  { text-align: center; }
@@ -22,8 +20,8 @@
   .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
   .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
   .center { margin-left: auto; margin-right: auto; text-align: center; }
-  #content { margin: 3em; }
-  #postamble p, a { font-size: 90%; margin: .2em; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
   p.verse { margin-left: 3%; }
   pre {
     border: 1px solid #ccc;
@@ -58,29 +56,34 @@
 
   table { border-collapse:collapse; }
   td, th { vertical-align:top;  }
-  th.right  { text-align:center;  }
-  th.left   { text-align:center;   }
-  th.center { text-align:center; }
-  td.right  { text-align:right;  }
-  td.left   { text-align:left;   }
-  td.center { text-align:center; }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
   dt { font-weight: bold; }
-  div.figure { padding:1em; }
-  div.figure p { text-align:center; }
-  div.inlinetask {
-    padding:10px;
-    border:2px solid gray;
-    margin:10px;
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
     background: #ffffcc;
   }
-  textarea { overflow-x:auto; }
-  .linenr { font-size:smaller }
-  .code-highlighted { background-color:#ffff00; }
-  .org-info-js_info-navigation { border-style:none; }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
   #org-info-js_console-label
-    { font-size:10px; font-weight:bold; white-space:nowrap; }
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
   .org-info-js_search-highlight
-    { background-color:#ffff00; color:#000000; font-weight:bold; }
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
   /*]]>*/-->
 </style>
 <script type="text/javascript">
@@ -129,7 +132,8 @@ for the JavaScript code in this tag.
  }
 /*]]>*///-->
 </script>
-<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js">
+<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js"></script>
+<script type="text/javascript">
 <!--/*--><![CDATA[/*><!--*/
     MathJax.Hub.Config({
         // Only one of the two following lines, depending on user settings
@@ -175,7 +179,7 @@ for the JavaScript code in this tag.
 <div id="content">
 <h1 class="title"><code>cap-post</code></h1>
 
-<div id="outline-container-1" class="outline-2">
+<div id="outline-container-sec-1" class="outline-2">
 <h2 id="sec-1">Postprocess Capreole datasets</h2>
 <div class="outline-text-2" id="text-1">
 <p>
@@ -183,7 +187,7 @@ All these programs work with datacubes in FITS format. See <code>[[http://github
 </p>
 </div>
 
-<div id="outline-container-1-1" class="outline-3">
+<div id="outline-container-sec-1-1" class="outline-3">
 <h3 id="sec-1-1">Package layout</h3>
 <div class="outline-text-3" id="text-1-1">
 <dl class="org-dl">
@@ -196,7 +200,7 @@ All these programs work with datacubes in FITS format. See <code>[[http://github
 </dl>
 </div>
 </div>
-<div id="outline-container-1-2" class="outline-3">
+<div id="outline-container-sec-1-2" class="outline-3">
 <h3 id="sec-1-2">Compilation</h3>
 <div class="outline-text-3" id="text-1-2">
 <ul class="org-ul">
@@ -222,12 +226,12 @@ LFITS=/usr/local/lib/libcfitsio.a
 </pre>
 </div>
 </li>
-<li>Most programs are designed to be run in the directory where the data is.  For convenience, you may want to set a shell variable to the directory where the programs are, e.g.: <code>psrc=/path/to/cap-post/src</code>.  So you can then type <code>sh $psrc/fitsemiss.sh &#x2026;</code> 
+<li>Most programs are designed to be run in the directory where the data is.  For convenience, you may want to set a shell variable to the directory where the programs are, e.g.: <code>psrc=/path/to/cap-post/src</code>.  So you can then type <code>sh $psrc/fitsemiss.sh ...</code> 
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-1-3" class="outline-3">
+<div id="outline-container-sec-1-3" class="outline-3">
 <h3 id="sec-1-3">Convenience scripts</h3>
 <div class="outline-text-3" id="text-1-3">
 <p>
@@ -256,7 +260,7 @@ The general default behavior of these scripts is to process all the save times o
 </dl>
 </div>
 
-<div id="outline-container-1-3-1" class="outline-4">
+<div id="outline-container-sec-1-3-1" class="outline-4">
 <h4 id="sec-1-3-1">fitsemiss.sh</h4>
 <div class="outline-text-4" id="text-1-3-1">
 <p>
@@ -265,7 +269,7 @@ Runs <code>cubet</code>, <code>cubeemiss</code>, and <code>makemap</code> as nec
 </div>
 </div>
 </div>
-<div id="outline-container-1-4" class="outline-3">
+<div id="outline-container-sec-1-4" class="outline-3">
 <h3 id="sec-1-4">Fortran programs</h3>
 <div class="outline-text-3" id="text-1-4">
 <p>
@@ -274,41 +278,72 @@ These programs can be run individually if necessary, although it is generally ea
 </div>
 
 
-<div id="outline-container-1-4-1" class="outline-4">
-<h4 id="sec-1-4-1">cubet</h4>
+<div id="outline-container-sec-1-4-1" class="outline-4">
+<h4 id="sec-1-4-1">cubestats</h4>
 <div class="outline-text-4" id="text-1-4-1">
+<p>
+Calculate various statistics from the data cubes: 
+</p>
+<ul class="org-ul">
+<li>Average radius of ionization front, calculated as cube root of volume / (4 pi/3):
+<ul class="org-ul">
+<li>Volume calculated from mask <code>x &gt; 0.9</code>
+</li>
+<li>Volume calculated by summing <code>x</code> over cells
+</li>
+</ul>
+</li>
+<li>Maximum and minimum i-front radii
+</li>
+<li>Mean radius of ionized gas
+</li>
+<li>RMS gas velocity dispersion (1D)
+<ul class="org-ul">
+<li>Mass weighted and volume weighted
+</li>
+<li>For ionized and neutral gas
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4-2" class="outline-4">
+<h4 id="sec-1-4-2">cubet</h4>
+<div class="outline-text-4" id="text-1-4-2">
 <p>
 Calculate temperature cube
 </p>
 </div>
 </div>
-<div id="outline-container-1-4-2" class="outline-4">
-<h4 id="sec-1-4-2">cubevr</h4>
-<div class="outline-text-4" id="text-1-4-2">
+<div id="outline-container-sec-1-4-3" class="outline-4">
+<h4 id="sec-1-4-3">cubevr</h4>
+<div class="outline-text-4" id="text-1-4-3">
 <p>
 Calculate radial velocity cube (from star, assumed at center of grid). 
 </p>
 </div>
 </div>
-<div id="outline-container-1-4-3" class="outline-4">
-<h4 id="sec-1-4-3">cubeemiss</h4>
-<div class="outline-text-4" id="text-1-4-3">
+<div id="outline-container-sec-1-4-4" class="outline-4">
+<h4 id="sec-1-4-4">cubeemiss</h4>
+<div class="outline-text-4" id="text-1-4-4">
 <p>
 Calculate emissivity cube for a particular emission process (e.g., <code>Halpha</code>, <code>FF06cm</code>, <code>N26584</code>, <code>neut00</code>, etc). 
 </p>
 </div>
 </div>
-<div id="outline-container-1-4-4" class="outline-4">
-<h4 id="sec-1-4-4">makemap</h4>
-<div class="outline-text-4" id="text-1-4-4">
+<div id="outline-container-sec-1-4-5" class="outline-4">
+<h4 id="sec-1-4-5">makemap</h4>
+<div class="outline-text-4" id="text-1-4-5">
 <p>
 Calculate surface brightness maps, for views along the 6 principal axes of the cube: \(\pm x\), \(\pm y\), \(\pm z\). 
 </p>
 </div>
 </div>
-<div id="outline-container-1-4-5" class="outline-4">
-<h4 id="sec-1-4-5">makerotmap</h4>
-<div class="outline-text-4" id="text-1-4-5">
+<div id="outline-container-sec-1-4-6" class="outline-4">
+<h4 id="sec-1-4-6">makerotmap</h4>
+<div class="outline-text-4" id="text-1-4-6">
 <p>
 Calculate surface brightness map for view from an arbitrary direction. 
 </p>
@@ -316,10 +351,22 @@ Calculate surface brightness map for view from an arbitrary direction.
 </div>
 </div>
 
-<div id="outline-container-1-5" class="outline-3">
+<div id="outline-container-sec-1-5" class="outline-3">
 <h3 id="sec-1-5">Python programs</h3>
 <div class="outline-text-3" id="text-1-5">
-</div><div id="outline-container-1-5-1" class="outline-4">
+<p>
+Note that these programs work best with python version &gt; 2.7 and require various python packages to be installed (<code>numpy</code>, <code>pyfits</code>, etc).  
+</p>
+
+<p>
+On our linux servers (as of 2012) it is necessary to use the EPD version of python instead of the system version.  For instance, by modifying your path:
+</p>
+<pre class="example">
+export PATH=/opt/epd/latest/bin:$PATH
+</pre>
+</div>
+
+<div id="outline-container-sec-1-5-1" class="outline-4">
 <h4 id="sec-1-5-1">plotvcube.py</h4>
 <div class="outline-text-4" id="text-1-5-1">
 <p>
@@ -329,7 +376,7 @@ Produces PDF figures of isovelocity or position-velocity cuts through a PPV emis
 
 
 
-<div id="outline-container-1-5-1-1" class="outline-5">
+<div id="outline-container-sec-1-5-1-1" class="outline-5">
 <h5 id="sec-1-5-1-1">Command line options for plotvcube.py</h5>
 <div class="outline-text-5" id="text-1-5-1-1">
 <pre class="example">
@@ -360,7 +407,7 @@ optional arguments:
 </pre>
 </div>
 </div>
-<div id="outline-container-1-5-1-2" class="outline-5">
+<div id="outline-container-sec-1-5-1-2" class="outline-5">
 <h5 id="sec-1-5-1-2">Examples of using plotvcube.py</h5>
 <div class="outline-text-5" id="text-1-5-1-2">
 <p>
@@ -383,7 +430,7 @@ Show isovelocity image of broad velocity channel summing from v=1 to v=50.
 </div>
 </div>
 </div>
-<div id="outline-container-1-5-2" class="outline-4">
+<div id="outline-container-sec-1-5-2" class="outline-4">
 <h4 id="sec-1-5-2">makemovie.py</h4>
 <div class="outline-text-4" id="text-1-5-2">
 <p>
@@ -391,7 +438,7 @@ Make movies of evolution at a fixed viewing angle or rotation at a fixed evoluti
 </p>
 </div>
 
-<div id="outline-container-1-5-2-1" class="outline-5">
+<div id="outline-container-sec-1-5-2-1" class="outline-5">
 <h5 id="sec-1-5-2-1">Examples of using makemovie.py</h5>
 <div class="outline-text-5" id="text-1-5-2-1">
 <p>
@@ -400,24 +447,24 @@ These are the command that were used to generate the movies included in Will's t
 
 <div class="org-src-container">
 
-<pre class="src src-sh"><span style="color: #8b8b83; font-style: italic;"># </span><span style="color: #8b8b83; font-style: italic;">Evolution movies</span>
-<span style="color: #b9d3ee;">for</span> ANGLE<span style="color: #b9d3ee;"> in</span> 0 215 135; <span style="color: #b9d3ee;">do</span>
+<pre class="src src-sh"><span style="color: #5F7F5F; font-style: italic;"># </span><span style="color: #8b8b83; font-style: italic;">Evolution movies</span>
+<span style="color: #b9d3ee; font-weight: bold;">for</span> ANGLE<span style="color: #b9d3ee; font-weight: bold;"> in</span> 0 215 135; <span style="color: #b9d3ee; font-weight: bold;">do</span>
     python ../cap-post/src/makemovie.py 04052012_4 <span style="color: #eee8aa; font-style: italic;">\</span>
-        --time 3 --mode evo --frames 28 --brightscale 1e8 --orient $<span style="color: #eedd82;">ANGLE</span> $<span style="color: #eedd82;">ANGLE</span> 
+        --time 3 --mode evo --frames 28 --brightscale 1e8 --orient $<span style="color: #dfaf8f;">ANGLE</span> $<span style="color: #dfaf8f;">ANGLE</span> 
     python ../cap-post/src/makemovie.py 04052012_4 <span style="color: #eee8aa; font-style: italic;">\</span>
         --time 3 --mode evo --emtypes neut00 PAH000 FF06cm <span style="color: #eee8aa; font-style: italic;">\</span>
         --emshort CPF --brightscale 1.0 --bandscales 3e6 0.15 0.25 <span style="color: #eee8aa; font-style: italic;">\</span>
-        --orient $<span style="color: #eedd82;">ANGLE</span> $<span style="color: #eedd82;">ANGLE</span> --frames 28 
-<span style="color: #b9d3ee;">done</span>
-<span style="color: #8b8b83; font-style: italic;"># </span><span style="color: #8b8b83; font-style: italic;">Tumble movies</span>
+        --orient $<span style="color: #dfaf8f;">ANGLE</span> $<span style="color: #dfaf8f;">ANGLE</span> --frames 28 
+<span style="color: #b9d3ee; font-weight: bold;">done</span>
+<span style="color: #5F7F5F; font-style: italic;"># </span><span style="color: #8b8b83; font-style: italic;">Tumble movies</span>
 python ../cap-post/src/makemovie.py 04052012_4 --time 30
 python ../cap-post/src/makemovie.py 04052012_4 --time 20 --brightscale 2e7
 python ../cap-post/src/makemovie.py 04052012_4 --time 10
-<span style="color: #b9d3ee;">for</span> TIME<span style="color: #b9d3ee;"> in</span> 10 20 30; <span style="color: #b9d3ee;">do</span>
+<span style="color: #b9d3ee; font-weight: bold;">for</span> TIME<span style="color: #b9d3ee; font-weight: bold;"> in</span> 10 20 30; <span style="color: #b9d3ee; font-weight: bold;">do</span>
     python ../cap-post/src/makemovie.py 04052012_4 <span style="color: #eee8aa; font-style: italic;">\</span>
-        --time $<span style="color: #eedd82;">TIME</span> --emtypes neut00 PAH000 FF06cm --emshort CPF --brightscale 1.0 <span style="color: #eee8aa; font-style: italic;">\</span>
+        --time $<span style="color: #dfaf8f;">TIME</span> --emtypes neut00 PAH000 FF06cm --emshort CPF --brightscale 1.0 <span style="color: #eee8aa; font-style: italic;">\</span>
         --bandscales 3e6 0.15 0.25
-<span style="color: #b9d3ee;">done</span>
+<span style="color: #b9d3ee; font-weight: bold;">done</span>
 </pre>
 </div>
 </div>
@@ -426,10 +473,10 @@ python ../cap-post/src/makemovie.py 04052012_4 --time 10
 </div>
 
 
-<div id="outline-container-1-6" class="outline-3">
+<div id="outline-container-sec-1-6" class="outline-3">
 <h3 id="sec-1-6">Library modules</h3>
 <div class="outline-text-3" id="text-1-6">
-</div><div id="outline-container-1-6-1" class="outline-4">
+</div><div id="outline-container-sec-1-6-1" class="outline-4">
 <h4 id="sec-1-6-1">wfitsutils</h4>
 <div class="outline-text-4" id="text-1-6-1">
 <p>
@@ -438,7 +485,7 @@ Read and write FITS files.
 </div>
 </div>
 
-<div id="outline-container-1-6-2" class="outline-4">
+<div id="outline-container-sec-1-6-2" class="outline-4">
 <h4 id="sec-1-6-2">emissmod</h4>
 <div class="outline-text-4" id="text-1-6-2">
 <p>
@@ -447,7 +494,7 @@ General mechanism for emissivity calculations.
 </div>
 </div>
 
-<div id="outline-container-1-6-3" class="outline-4">
+<div id="outline-container-sec-1-6-3" class="outline-4">
 <h4 id="sec-1-6-3">em2levmod</h4>
 <div class="outline-text-4" id="text-1-6-3">
 <p>
@@ -456,7 +503,7 @@ Specific functions for particular types of emission line.
 </div>
 </div>
 </div>
-<div id="outline-container-1-7" class="outline-3">
+<div id="outline-container-sec-1-7" class="outline-3">
 <h3 id="sec-1-7">External dependencies</h3>
 <div class="outline-text-3" id="text-1-7">
 <p>
@@ -464,7 +511,7 @@ Many of the Fortran progams use my <code>wfitsutils</code> module, which depends
 </p>
 </div>
 
-<div id="outline-container-1-7-1" class="outline-4">
+<div id="outline-container-sec-1-7-1" class="outline-4">
 <h4 id="sec-1-7-1">Fedora</h4>
 <div class="outline-text-4" id="text-1-7-1">
 <div class="org-src-container">
@@ -474,7 +521,7 @@ Many of the Fortran progams use my <code>wfitsutils</code> module, which depends
 </div>
 </div>
 </div>
-<div id="outline-container-1-7-2" class="outline-4">
+<div id="outline-container-sec-1-7-2" class="outline-4">
 <h4 id="sec-1-7-2">Mac OS X via Homebrew</h4>
 <div class="outline-text-4" id="text-1-7-2">
 <div class="org-src-container">
@@ -485,7 +532,7 @@ Many of the Fortran progams use my <code>wfitsutils</code> module, which depends
 </div>
 </div>
 
-<div id="outline-container-1-7-3" class="outline-4">
+<div id="outline-container-sec-1-7-3" class="outline-4">
 <h4 id="sec-1-7-3">Other</h4>
 <div class="outline-text-4" id="text-1-7-3">
 <p>
@@ -507,11 +554,11 @@ Of course, you will want to change <code>3250</code> to te latest version. If yo
 </div>
 </div>
 </div>
-<div id="postamble">
-<p class="date">Date: </p>
-<p class="author">Author : William Henney</p>
-<p class="creator">Generated by <a href="http://orgmode.org">Org</a> mode 8.0-pre in <a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.2.93.1.</p>
-<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+<div id="postamble" class="status">
+<p class="author">Author: William Henney</p>
+<p class="date">Created: 2013-09-16 Mon 18:57</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.3.1 (<a href="http://orgmode.org">Org</a> mode 8.0.7)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
 </html>

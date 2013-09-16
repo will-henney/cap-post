@@ -96,6 +96,12 @@ Calculate surface brightness map for view from an arbitrary direction.
 ** Python programs
 
 
+Note that these programs work best with python version > 2.7 and require various python packages to be installed (=numpy=, =pyfits=, etc).  
+
+On our linux servers (as of 2012) it is necessary to use the EPD version of python instead of the system version.  For instance, by modifying your path:
+#+BEGIN_EXAMPLE
+export PATH=/opt/epd/latest/bin:$PATH
+#+END_EXAMPLE
 
 *** plotvcube.py
 
