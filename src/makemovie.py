@@ -1,6 +1,18 @@
 from movierot import Movie 
-import argparse
 import sys
+try:
+    import argparse
+except ImportError:
+    print """
+    Unable to load the argparse library.  
+    Probable cause: python version too old (< 2.7).  
+    Try using a different python. 
+    For example
+
+    $ export PATH=/opt/epd/latest/bin:$PATH
+
+    """
+    sys.exit()
 
 parser = argparse.ArgumentParser(
     formatter_class=argparse.ArgumentDefaultsHelpFormatter,

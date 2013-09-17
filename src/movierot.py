@@ -215,8 +215,12 @@ class Movie(object):
 	    else:
 		output = subprocess.PIPE # we never read from this
 	    cmd = os.path.join(self.execdir, self.makerotmap)
-	    p = subprocess.Popen([cmd], stdin=subprocess.PIPE, stdout=output, 
+            try:
+                p = subprocess.Popen([cmd], stdin=subprocess.PIPE, stdout=output, 
 				 cwd=self.datadir)
+            except OSError:
+                print cmd, " not found.  Make sure you have compiled it"
+                call sys.exit()
 	    p.stdin.writelines(
 		[str(x) + '\n' for x in [
 			self.runid,
