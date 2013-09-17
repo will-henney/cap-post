@@ -220,7 +220,7 @@ class Movie(object):
 				 cwd=self.datadir)
             except OSError:
                 print cmd, " not found.  Make sure you have compiled it"
-                call sys.exit()
+                sys.exit()
 	    p.stdin.writelines(
 		[str(x) + '\n' for x in [
 			self.runid,
