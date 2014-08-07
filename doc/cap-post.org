@@ -15,7 +15,7 @@
 
 * Postprocess Capreole datasets
 
-All these programs work with datacubes in FITS format. See =[[http://github.com/deprecated/ah3-utils][ah3-utils]]= for how to convert Capreole's native AH3 format to FITS. 
+All these programs work with datacubes in FITS format. See [[http://github.com/deprecated/ah3-utils][=ah3-utils=]] for how to convert Capreole's native AH3 format to FITS. 
 
 ** Package layout
 + =doc/cap-post.org= :: Source for documentation in Org-mode format  
@@ -23,7 +23,7 @@ All these programs work with datacubes in FITS format. See =[[http://github.com/
 + =src/*.{f90,sh}= :: Programs and convenience scripts
 
 ** Compilation
-+ First install the [[*Dependencies][dependencies]]
++ First install the [[#dependencies-target][dependencies]]
 + Enter the =src/= directory
 + [OPTIONAL] Copy =local.mk.sample= to =local.mk= and edit it to specify the desired compiler command (=F90C=), compiler options (=F90LAGS=), and libraries to link (=LFITS=). 
   + The default values are 
@@ -191,6 +191,9 @@ General mechanism for emissivity calculations.
 Specific functions for particular types of emission line.
 
 ** External dependencies
+#+PROPERTIES:
+CUSTOM_ID: dependencies-target
+#+END_PROPETRIES
 Many of the Fortran progams use my =wfitsutils= module, which depends on the CFITSIO library.  This may be installed as follows:
 
 *** Fedora
