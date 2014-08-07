@@ -61,7 +61,7 @@ program cubevstats
 
      write(fitsfilename, '(2a,i4.4,a)') trim(prefix), '_', it, 'x.fits'
      call fitsread(trim(fitsfilename))
-     xi = fitscube
+     xi = 1.0 - fitscube
 
      write(fitsfilename, '(2a,i4.4,a)') trim(prefix), '_', it, 'u.fits'
      call fitsread(trim(fitsfilename))
