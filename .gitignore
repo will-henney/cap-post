@@ -10,10 +10,12 @@
 */makerotmapsmall
 */cubeav
 /src/makevcubes
-/src/makerotmap
+/src/makerotmap*
 /src/cubewind
 /src/local.mk
 /src/turbdiss
 /.ropeproject/config.py
 /src/.ropeproject/config.py
 /src/cubestats
+/src/cubevstats
+
