@@ -191,9 +191,10 @@ General mechanism for emissivity calculations.
 Specific functions for particular types of emission line.
 
 ** External dependencies
-#+PROPERTIES:
-CUSTOM_ID: dependencies-target
-#+END_PROPETRIES
+#+BEGIN_HTML
+<a name="dependencies-target">
+#+END_HTML
+
 Many of the Fortran progams use my =wfitsutils= module, which depends on the CFITSIO library.  This may be installed as follows:
 
 *** Fedora
