@@ -6,7 +6,7 @@ LFITS=/usr/local/lib/libcfitsio.a
 
 EXECS= \
      cubeav cubet cubevr cubewind turbdiss cubeemiss \
-     makemap makerotmap makerotmapsmall makevcubes
+     makemap makerotmap makerotmapsmall makevcubes cubevstats
 
 all: $(EXECS)
 
@@ -30,8 +30,12 @@ makerotmapsmall.o: cuberotate.o wfitsutils.o emissmod.o
 makevcubes.o: wfitsutils.o psfutils.o fft.o
 psfutils.o: fft.o
 cubestats.o:  wfitsutils.o
+cubevstats.o:  wfitsutils.o findcolumn_standalone.o
 
 
+
+cubevstats: cubevstats.o wfitsutils.o findcolumn_standalone.o
+	$(F90C) $(F90FLAGS) -o $@ $^ $(LFITS)
 
 cubestats: cubestats.o wfitsutils.o
 	$(F90C) $(F90FLAGS) -o $@ $^ $(LFITS)
