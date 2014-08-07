@@ -37,16 +37,13 @@ program cubevstats
 
   open(1, file=trim(prefix)//itstring//'.vstats', action='write')
 
+  write(1, '("# ",11(a,"'//TAB//'"))') 'Time', &
+       & 'Vr_vol_t', 'Vr_vol_m', 'Vr_vol_n', 'Vr_vol_i', &
+       & 'Vr_mass_t', 'Vr_mass_m', 'Vr_mass_n', 'Vr_mass_i', &
+       & 'Vr_em_i', 'Vr_em_if'
+
   do it = it1, it2, itstep
-!!$     if (it<=itstep) then 
-        write(1, '("# ",11(a,"'//TAB//'"))') 'Time', &
-             & 'Vr_vol_t', 'Vr_vol_m', 'Vr_vol_n', 'Vr_vol_i', &
-             & 'Vr_mass_t', 'Vr_mass_m', 'Vr_mass_n', 'Vr_mass_i', &
-             & 'Vr_em_i', 'Vr_em_if'
-
-!!$     end if
-
-     write(fitsfilename, '(2a,i4.4,a)') trim(prefix), '-', it, 'd.fits'
+     write(fitsfilename, '(2a,i4.4,a)') trim(prefix), '_', it, 'd.fits'
      call fitsread(trim(fitsfilename))
      if (it ==it1) then
         ! first time setup
@@ -62,25 +59,26 @@ program cubevstats
      end if
      d = fitscube/mp/mu
 
-     write(fitsfilename, '(2a,i4.4,a)') trim(prefix), '-', it, 'x.fits'
+     write(fitsfilename, '(2a,i4.4,a)') trim(prefix), '_', it, 'x.fits'
      call fitsread(trim(fitsfilename))
      xi = fitscube
 
-     write(fitsfilename, '(2a,i4.4,a)') trim(prefix), '-', it, 'u.fits'
+     write(fitsfilename, '(2a,i4.4,a)') trim(prefix), '_', it, 'u.fits'
      call fitsread(trim(fitsfilename))
      vx = fitscube
-     write(fitsfilename, '(2a,i4.4,a)') trim(prefix), '-', it, 'v.fits'
+     write(fitsfilename, '(2a,i4.4,a)') trim(prefix), '_', it, 'v.fits'
      call fitsread(trim(fitsfilename))
      vy = fitscube
-     write(fitsfilename, '(2a,i4.4,a)') trim(prefix), '-', it, 'w.fits'
+     write(fitsfilename, '(2a,i4.4,a)') trim(prefix), '_', it, 'w.fits'
      call fitsread(trim(fitsfilename))
      vz = fitscube
 
-     ! Calculate AV instead of reading from file
-     AV = AV_per_tau*sigma_dust_vband*find_column_densities(real(d))
-     ! write(fitsfilename, '(2a,i4.4,a)') trim(prefix), '-', it, 'av.fits'
-     ! call fitsread(trim(fitsfilename))
-     ! AV = fitscube
+     write(fitsfilename, '(2a,i4.4,a)') trim(prefix), '_', it, 'av.fits'
+     call fitsread(trim(fitsfilename))
+     AV = fitscube
+
+     ! ! If necessary, Calculate AV instead of reading from file
+     ! AV = AV_per_tau*sigma_dust_vband*find_column_densities(real(d))
 
      ! Position
      forall(i=1:nx, j=1:ny, k=1:nz)
