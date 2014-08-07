@@ -190,9 +190,12 @@ General mechanism for emissivity calculations.
 *** em2levmod
 Specific functions for particular types of emission line.
 
+#+BEGIN_HTML
+<div name="dependencies-target">
+#+END_HTML
 ** External dependencies
 #+BEGIN_HTML
-<a name="dependencies-target">
+</div>
 #+END_HTML
 
 Many of the Fortran progams use my =wfitsutils= module, which depends on the CFITSIO library.  This may be installed as follows:
