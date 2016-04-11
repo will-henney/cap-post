@@ -47,6 +47,7 @@ if __name__ == '__main__':
 
     pattern = '{}_*vsum-{}.fits'.format(prefix, suffix)
     filenames = glob.glob(pattern)
+    filenames.sort()
     data = []
     for fn in filenames:
         data.append(stats_from_momfiles(fn))
