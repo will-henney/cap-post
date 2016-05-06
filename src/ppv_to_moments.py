@@ -9,13 +9,50 @@ import sys
 import numpy as np
 from astropy.io import fits
 
+# 06 May 2016: Based on the Fortran implementation in
+# /Users/will/Work/BobKPNO/src/newlinemod.f90
+def find_fwhm(f, v, frac=0.5):
+    ipeak = np.argmax(f)
+    fpeak = f[ipeak]
+    ileft = np.argmin(f[f >= frac*fpeak])
+    iright = np.argmax(f[f >= frac*fpeak])
+    if ileft <= 0:
+        uleft = v[0]
+    elif ileft >= len(f):
+        uleft = v[-1]
+    else:
+        uleft = (
+            v[ileft] -
+            (v[ileft] - v[ileft-1])
+            * (f[ileft] - frac*fpeak)
+            / (f[ileft] - f[ileft-1])
+        )
+    if iright < 0:
+        uright = v[0]
+    elif iright >= len(f):
+        uright = v[-1]
+    else:
+        uright = (
+            v[iright] +
+            (v[iright+1] - v[iright])
+            * (f[iright] - frac*fpeak)
+            / (f[iright] - f[iright-1])
+        )
+    return uright - uleft
+
+
+def find_peak(f, v):
+    raise NotImplementedError
+
+
 if __name__ == '__main__':
     try:
         fn = sys.argv[1]
     except:
         print('Usage {} FILENAME'.format(sys.argv[0]))
         
-        
+    uleft, uright
+    
     hdu, = fits.open(fn)
     # Velocity is first FITS axis; last python axis
     ny, nx, nv = hdu.data.shape
