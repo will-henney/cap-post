@@ -16,7 +16,7 @@ def find_mach_stats(prefix='04052012_4_0030'):
 
         vv = (u - u0)**2 + (v - v0)**2 + (w - w0)**2
         vrms = np.sqrt(np.average(vv, weights=e))
-        print(label, 'mean = [{:.2f}, {:.2f}, {.2f}]'.format(u0, v0, w0))
+        print(label, 'mean = [{:.2f}, {:.2f}, {:.2f}]'.format(u0, v0, w0))
         print(label, 'RMS = {:.2f}'.format(vrms))
 
 if __name__ == '__main__':
@@ -24,5 +24,5 @@ if __name__ == '__main__':
         # Example prefix: 04052012_4_0030
         prefix = sys.argv[1]
     except IndexError:
-        print('Usage: {} PREFIX'.format(sys.argv[0]))
+        sys.exit('Usage: {} PREFIX'.format(sys.argv[0]))
     find_mach_stats(prefix)
