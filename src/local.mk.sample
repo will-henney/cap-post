@@ -22,3 +22,10 @@
 # F90FLAGS+=-heap-arrays
 #
 # #################################################################
+#
+# ################## macOS Apple Silicon, gfortran, Homebrew ##################
+# 
+# F90C=gfortran
+# LFITS=-Bdynamic /opt/homebrew/lib/libcfitsio.dylib
+
+# #################################################################
